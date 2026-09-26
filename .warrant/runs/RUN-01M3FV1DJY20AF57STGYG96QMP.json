@@ -1,0 +1,58 @@
+{
+  "$schema": "warrant://run/1",
+  "id": "RUN-01M3FV1DJY20AF57STGYG96QMP",
+  "change": "rate-limiter",
+  "operation": "review",
+  "skill": "specification/adversarial-review@0.2.0",
+  "model": "claude-opus-5-5",
+  "write_scope": [],
+  "scope": [],
+  "branch": "spec/rate-limiter",
+  "started_at": "2026-09-26T21:48:15.392Z",
+  "finished_at": "2026-09-26T21:52:39.811Z",
+  "run_state": "SUCCEEDED",
+  "context_hash": "sha256:292c3e98a69e48b357ef1b1a898ec188568de5e33a9fcb2e9e27f9f416388ca5",
+  "effective_policy_hash": "sha256:8028e12369f4d213ebfebf99da0cdf5b62c7fd286b991f6be2cc9a852bd30ffb",
+  "spec_tree": "sha256:9ffd3773e6bc93e5709a6a1f1db45e1476c338c08c361c00b1cbe5f740a46b99",
+  "evidence": [
+    "EVID-01M3FV9ESG7XC9QCZ1CQV661TE"
+  ],
+  "guard_events": [
+    {
+      "at": "2026-09-26T21:51:17.998Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:51:54.078Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:52:02.900Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:52:34.566Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    }
+  ]
+}

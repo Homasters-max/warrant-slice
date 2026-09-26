@@ -1,0 +1,45 @@
+{
+  "$schema": "warrant://evidence/1",
+  "id": "EVID-01M3FV9ESG7XC9QCZ1CQV661TE",
+  "claim": {
+    "text": "specification/adversarial-review@0.2.0 reviewed the spec of rate-limiter: 2 BLOCKER, 4 MAJOR, 3 MINOR, 1 INFO",
+    "targets": []
+  },
+  "kind": "review",
+  "level": "L2",
+  "evidence_status": "NOT_PROVEN",
+  "subject": {
+    "commit": "d6fc7f596ee6ae6eb6e52f793661bf2644d2b93b",
+    "spec_revision": "openspec/changes/rate-limiter@d6fc7f596ee6ae6eb6e52f793661bf2644d2b93b",
+    "spec_tree": "sha256:9ffd3773e6bc93e5709a6a1f1db45e1476c338c08c361c00b1cbe5f740a46b99",
+    "dataset_snapshot": null
+  },
+  "produced_by": {
+    "type": "skill",
+    "id": "specification/adversarial-review",
+    "version": "0.2.0",
+    "run": "RUN-01M3FV1DJY20AF57STGYG96QMP"
+  },
+  "attestation": {
+    "type": "none"
+  },
+  "context_hash": "sha256:292c3e98a69e48b357ef1b1a898ec188568de5e33a9fcb2e9e27f9f416388ca5",
+  "effective_policy_hash": "sha256:8028e12369f4d213ebfebf99da0cdf5b62c7fd286b991f6be2cc9a852bd30ffb",
+  "created_at": "2026-09-26T21:52:38.705Z",
+  "artifacts": [
+    {
+      "uri": ".warrant/runs/RUN-01M3FV1DJY20AF57STGYG96QMP.result.json",
+      "sha256": "sha256:30d58932cbbf5b58000571172ef42d2c4949ff000e4ed5c718cb27e5681b3d4a"
+    }
+  ],
+  "limitations": [
+    "produced locally, unattested",
+    "same model family as author"
+  ],
+  "metrics": {
+    "BLOCKER": 2,
+    "INFO": 1,
+    "MAJOR": 4,
+    "MINOR": 3
+  }
+}
