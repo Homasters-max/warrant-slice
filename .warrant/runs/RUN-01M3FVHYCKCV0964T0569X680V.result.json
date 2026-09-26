@@ -1,0 +1,182 @@
+{
+  "$schema": "warrant://skill-result/1",
+  "skill": "specification/adversarial-review@0.2.0",
+  "run": "RUN-01M3FVHYCKCV0964T0569X680V",
+  "run_state": "SUCCEEDED",
+  "findings": [
+    {
+      "id": "F-1",
+      "marker": "FACT",
+      "severity": "BLOCKER",
+      "category": "contradiction",
+      "statement": "REQ-RL-001 states an unconditional guarantee (any interval of length T: at most N + T*N/W passes), but REQ-RL-002 (mark shifted back on clock rollback) and SCN-RL-005 violate it: N=2, W=10, key a gets 3 passes all at source time 10, i.e. 3 passes in an interval of length 0 where the bound is 2. Design D-4 admits the rollback segment is refilled twice. Both statements cannot hold; a guarantee test and the SCN-RL-005 test conflict.",
+      "targets": [
+        "REQ-RL-001",
+        "REQ-RL-002",
+        "SCN-RL-005",
+        "openspec/changes/rate-limiter/proposal.md"
+      ],
+      "recommendation": "Restrict the guarantee to a non-decreasing time source (also in proposal.md What Changes), or maintainer revisits UNK-RL-001."
+    },
+    {
+      "id": "F-2",
+      "marker": "FACT",
+      "severity": "MAJOR",
+      "category": "contradiction",
+      "statement": "REQ-RL-002 promises an exact boundary decision only for integer time and W where elapsed*N/W is exactly representable, yet SCN-RL-002 fixes the boundary outcome on 0.8 (4*2/10) and 0.2 (1*2/10), both not representable in binary float: by the requirement the 5 s outcome may depend on rounding, the scenario demands a pass. The condition also ignores the accumulated sum (0.8+0.2) the decision depends on.",
+      "targets": [
+        "REQ-RL-002",
+        "SCN-RL-002"
+      ],
+      "recommendation": "State the exactness condition over all values involved (increment and accumulated tokens exactly representable binary fractions) and move SCN-RL-002 to such values, e.g. N=2, W=8: at 0 two pass, 3rd rejected; at 3 s rejected (0.75); at 4 s first passes, second rejected; at 64 s two pass, 3rd rejected."
+    },
+    {
+      "id": "F-3",
+      "marker": "INFERENCE",
+      "severity": "MAJOR",
+      "category": "missing-boundary",
+      "statement": "int admits values beyond float range: W=10**400 and source time 10**400 are valid finite ints per REQ-RL-001, but the math.isfinite check of design D-2/D-3 and float refill arithmetic raise OverflowError on them; spec defines neither the outcome (accepted or ValueError) nor the exception.",
+      "targets": [
+        "REQ-RL-001",
+        "SCN-RL-004",
+        "SCN-RL-006"
+      ],
+      "recommendation": "Require int W and int source values to be representable as a finite float, else ValueError (at creation and per request, state unchanged); add W=10**400 to SCN-RL-004 and time 10**400 to SCN-RL-006."
+    },
+    {
+      "id": "F-4",
+      "marker": "INFERENCE",
+      "severity": "MAJOR",
+      "category": "ambiguity",
+      "statement": "Spec does not define the observable form of the decision or the entry point: how the limiter is created and how the caller learns pass/reject (bool, enum, exception). Scenarios are testable only via design D-3 API (RateLimiter(limit, window, clock), allow(key) -> bool); an implementation with another API conforms to spec and fails the tests.",
+      "targets": [
+        "REQ-RL-001",
+        "SCN-RL-001",
+        "SCN-RL-002",
+        "SCN-RL-003",
+        "SCN-RL-005",
+        "SCN-RL-006"
+      ],
+      "recommendation": "Add the public contract to REQ-RL-001: constructor with quota, window, time source; per-key request method returning True on pass and False on reject; rejection is not an exception."
+    },
+    {
+      "id": "F-5",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "contradiction",
+      "statement": "The N + T*N/W guarantee in REQ-RL-001 has no error allowance, while REQ-RL-002 allows rounding to decide the boundary on fractional values; rounding up can yield a pass beyond the bound.",
+      "targets": [
+        "REQ-RL-001",
+        "REQ-RL-002"
+      ],
+      "recommendation": "Qualify the guarantee: exact where REQ-RL-002 makes the boundary exact, otherwise up to rounding error."
+    },
+    {
+      "id": "F-6",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "missing-boundary",
+      "statement": "SHALLs not exercised by any scenario: default monotonic clock; order key check then exactly one source call (call count not observed, no case of unhashable key with raising source); state unchanged after exception is checked only on a fresh full key a, so mark corruption (e.g. NaN mark) is invisible. Whether the source is called at creation is unstated.",
+      "targets": [
+        "REQ-RL-001",
+        "SCN-RL-006",
+        "openspec/changes/rate-limiter/tasks.md"
+      ],
+      "recommendation": "Extend SCN-RL-006: count source calls; drain a at 0, failing request (NaN), then request at 10 s passes; unhashable key with raising source gives TypeError. Add a default-clock scenario; state the source is not called at creation."
+    },
+    {
+      "id": "F-7",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "ambiguity",
+      "statement": "Explicit clock=None: by text a non-callable source (TypeError), by common Python reading source not passed (default clock). SCN-RL-004 does not list None.",
+      "targets": [
+        "REQ-RL-001",
+        "SCN-RL-004"
+      ],
+      "recommendation": "State the None outcome explicitly and add None to SCN-RL-004."
+    },
+    {
+      "id": "F-8",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "hidden-assumption",
+      "statement": "REQ-RL-001: same key = same object or equal by ==; design D-3: dict key equality (== with equal hash). Readings diverge for objects with inconsistent __hash__/__eq__. Unstated what happens when key __hash__ or __eq__ raises an exception other than TypeError (TypeError or propagate).",
+      "targets": [
+        "REQ-RL-001"
+      ],
+      "recommendation": "Define key identity as identity or (equal hash and ==); exceptions from __hash__/__eq__ propagate to the caller with state unchanged."
+    }
+  ],
+  "proposals": [
+    {
+      "id": "P-1",
+      "target": "openspec/changes/rate-limiter/specs/rate-limiter/spec.md",
+      "change": "REQ-RL-001: guarantee holds while the source does not decrease, with rounding allowance (F-1, F-5); same in proposal.md."
+    },
+    {
+      "id": "P-2",
+      "target": "openspec/changes/rate-limiter/specs/rate-limiter/spec.md",
+      "change": "SCN-RL-002 on N=2, W=8 (times 0, 3, 4, 64 s) and a refined exactness condition in REQ-RL-002 (F-2)."
+    },
+    {
+      "id": "P-3",
+      "target": "openspec/changes/rate-limiter/specs/rate-limiter/spec.md",
+      "change": "REQ-RL-001: public API with True/False (F-4); int beyond float range -> ValueError (F-3); None source (F-7); key semantics (F-8); extend SCN-RL-004 and SCN-RL-006 (F-3, F-6, F-7)."
+    }
+  ],
+  "unknowns": [
+    {
+      "id": "U-1",
+      "question": "Are int W and int source values beyond float range accepted, or rejected with ValueError?",
+      "blocking": false,
+      "impact": [
+        "spec",
+        "design"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "A-1",
+      "statement": "No main specs (openspec/specs has only .gitkeep); consistency checked within the Change only."
+    },
+    {
+      "id": "A-2",
+      "statement": "Interval of length T in the REQ-RL-001 guarantee read as an interval of source time, the only time defined in the spec."
+    },
+    {
+      "id": "A-3",
+      "statement": "Float behaviour, OverflowError and math.isfinite inferred from Python semantics without running code; 0.8 + 0.2 == 1.0 in float."
+    },
+    {
+      "id": "A-4",
+      "statement": "Second-review findings F-1..F-10 treated as closed by the current text unless raised again."
+    }
+  ],
+  "decisions_required": [
+    {
+      "id": "D-1",
+      "question": "Quota guarantee under clock rollback (F-1)",
+      "options": [
+        "guarantee only for a non-decreasing source, UNK-RL-001 decision unchanged",
+        "revisit UNK-RL-001: elapsed=0 without shifting the mark",
+        "revisit UNK-RL-001: ValueError with state unchanged"
+      ]
+    },
+    {
+      "id": "D-2",
+      "question": "int beyond float range for W and time (F-3)",
+      "options": [
+        "ValueError",
+        "accepted, arithmetic without OverflowError"
+      ]
+    }
+  ],
+  "provenance": {
+    "context_hash": "sha256:2cd2e97e12772808ffc424de6c30fe5742914bff041ab06b4ca9530965acc26f",
+    "model": "claude-opus-5-5",
+    "started_at": "2026-09-27T10:00:00Z",
+    "finished_at": "2026-09-27T10:30:00Z"
+  }
+}
