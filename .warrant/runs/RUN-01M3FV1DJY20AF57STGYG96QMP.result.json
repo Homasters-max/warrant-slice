@@ -1,0 +1,195 @@
+{
+  "$schema": "warrant://skill-result/1",
+  "skill": "specification/adversarial-review@0.2.0",
+  "run": "RUN-01M3FV1DJY20AF57STGYG96QMP",
+  "run_state": "SUCCEEDED",
+  "findings": [
+    {
+      "id": "F-1",
+      "marker": "FACT",
+      "severity": "BLOCKER",
+      "category": "contradiction",
+      "statement": "Допуск 1e-9 противоречит правилу пропуска. REQ-RL-001: пропуск, если запас не меньше единицы, иначе SHALL отклоняться; REQ-RL-002: запас меньше единицы не пропускает, но запас в пределах 1e-9 от единицы считается достигшим её. N=1, W=1, время 0 и 0.9999999995: по REQ-RL-001 второй запрос отклонён (и гарантия N+T*N/W=1.9999999995 допускает 1 пропуск), по REQ-RL-002 и design D-1 пропущен. Правило о погрешности вычисления делает решение в полосе [1-2e-9,1-1e-9) зависимым от реализации.",
+      "targets": [
+        "REQ-RL-001",
+        "REQ-RL-002"
+      ],
+      "recommendation": "Одно наблюдаемое правило для обоих требований: точное сравнение с 1 по значениям источника без допуска, либо допуск как контракт (пропуск при точном запасе >= 1-1e-9) с расширенной гарантией; убрать фразу о погрешности вычисления; сценарий у границы (N=10, W=1, время 0.2 и 0.3)."
+    },
+    {
+      "id": "F-2",
+      "marker": "FACT",
+      "severity": "BLOCKER",
+      "category": "missing-boundary",
+      "statement": "REQ-RL-001 оставляет неопределённым поведение при времени источника меньше предыдущего (UNK-RL-001); вход достижим через внедряемый источник, варианты D-4 дают разное наблюдаемое поведение, тест по spec невозможен. UNK-RL-001 только прозой: в Change record unknowns нет (правило design в openspec/config.yaml).",
+      "targets": [
+        "REQ-RL-001",
+        "REQ-RL-002",
+        "openspec/changes/rate-limiter/proposal.md"
+      ],
+      "recommendation": "Решение мейнтейнера до APPROVED, поведение и сценарий в spec; зарегистрировать UNKNOWN в Change record через warrant."
+    },
+    {
+      "id": "F-3",
+      "marker": "INFERENCE",
+      "severity": "MAJOR",
+      "category": "missing-boundary",
+      "statement": "Нет верхних границ N, N/W и времени при требовании погрешности 1e-9: во float недостижимо при N порядка 1e8 (ulp около 1.5e-8) и больших временах; N больше 1.8e308 допустимо по REQ-RL-001, но пополнение по D-1 падает OverflowError, не описанным в spec.",
+      "targets": [
+        "REQ-RL-001",
+        "REQ-RL-002"
+      ],
+      "recommendation": "Задать допустимый диапазон N (и времени) с ValueError при создании и сценарием, либо снять численную гарантию (F-1)."
+    },
+    {
+      "id": "F-4",
+      "marker": "INFERENCE",
+      "severity": "MAJOR",
+      "category": "ambiguity",
+      "statement": "Не определено, что есть целое число и число: N=3.0; W и время типа Fraction или Decimal (spec: конечное число, design: только int/float); True от источника (для N и W bool исключён явно, для источника нет, design исключает). Прочтения дают ValueError или работу.",
+      "targets": [
+        "REQ-RL-001",
+        "SCN-RL-004"
+      ],
+      "recommendation": "Перечислить допустимые типы N, W и значения источника; добавить в сценарии N=3.0, W=True, True от источника."
+    },
+    {
+      "id": "F-5",
+      "marker": "INFERENCE",
+      "severity": "MAJOR",
+      "category": "missing-error-behavior",
+      "statement": "Не описан недопустимый сам источник: явный None (по умолчанию или ошибка), не вызываемый объект; отклоняется при создании или ошибка при запросе.",
+      "targets": [
+        "REQ-RL-001"
+      ],
+      "recommendation": "Указать поведение и вид исключения, добавить сценарий."
+    },
+    {
+      "id": "F-6",
+      "marker": "FACT",
+      "severity": "MAJOR",
+      "category": "missing-boundary",
+      "statement": "SHALL без сценариев: TypeError нехешируемого ключа без изменения состояния; равенство ключей 1, 1.0, True; проброс исключения источника; ValueError неконечного времени; монотонные часы по умолчанию; граница допуска 1e-9. Tasks 1.2 проверяет ключ и часы тестами SCN-RL-001/003, которые этого не проверяют.",
+      "targets": [
+        "REQ-RL-001",
+        "REQ-RL-002",
+        "openspec/changes/rate-limiter/tasks.md"
+      ],
+      "recommendation": "Добавить сценарии на эти случаи (с проверкой неизменности запаса) и сослаться на них в tasks 1.2."
+    },
+    {
+      "id": "F-7",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "hidden-assumption",
+      "statement": "Не определены число вызовов источника (при создании, один раз на запрос, при нехешируемом ключе) и порядок проверок: какое исключение, если ключ нехешируем и источник бросает.",
+      "targets": [
+        "REQ-RL-001"
+      ],
+      "recommendation": "Указать число вызовов источника и порядок проверок."
+    },
+    {
+      "id": "F-8",
+      "marker": "FACT",
+      "severity": "MINOR",
+      "category": "contradiction",
+      "statement": "Заголовок REQ-RL-001 Не больше N запросов за окно противоречит телу: за одно окно W не больше 2N, строгого N в окне нет.",
+      "targets": [
+        "REQ-RL-001"
+      ],
+      "recommendation": "Переименовать, например Квота token bucket по ключу."
+    },
+    {
+      "id": "F-9",
+      "marker": "FACT",
+      "severity": "MINOR",
+      "category": "ambiguity",
+      "statement": "В установившемся режиме не больше N за окно в среднем: нет наблюдаемого критерия, тест невозможен.",
+      "targets": [
+        "REQ-RL-001"
+      ],
+      "recommendation": "Удалить или заменить точной границей N+floor(T*N/W) с учётом F-1."
+    },
+    {
+      "id": "F-10",
+      "marker": "INFERENCE",
+      "severity": "INFO",
+      "category": "hidden-assumption",
+      "statement": "Равенство ключей не покрывает NaN: один объект NaN в словаре один ключ, разные объекты разные.",
+      "targets": [
+        "REQ-RL-001"
+      ],
+      "recommendation": "Оговорить совпадение ключей по правилам словаря или исключить такие ключи."
+    }
+  ],
+  "unknowns": [
+    {
+      "id": "U-1",
+      "question": "UNK-RL-001: поведение при времени источника меньше предыдущего?",
+      "blocking": true,
+      "impact": [
+        "spec",
+        "design",
+        "tasks"
+      ]
+    },
+    {
+      "id": "U-2",
+      "question": "Граница пропуска: точное сравнение с 1 или допуск 1e-9 как контракт с расширенной гарантией?",
+      "blocking": true,
+      "impact": [
+        "spec",
+        "design"
+      ]
+    },
+    {
+      "id": "U-3",
+      "question": "Нужна ли верхняя граница N и времени для гарантии точности?",
+      "blocking": false,
+      "impact": [
+        "spec",
+        "design"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "A-1",
+      "statement": "Main specs нет (openspec/specs только .gitkeep)."
+    },
+    {
+      "id": "A-2",
+      "statement": "Примеры float и OverflowError выведены из семантики Python и design D-1 без запуска кода."
+    },
+    {
+      "id": "A-3",
+      "statement": "ValueError, TypeError и хешируемость ключа считаются наблюдаемым API, не утечкой реализации."
+    }
+  ],
+  "decisions_required": [
+    {
+      "id": "D-1",
+      "question": "Часы назад (UNK-RL-001)",
+      "options": [
+        "elapsed=0, сдвинуть отметку",
+        "elapsed=0, отметку не менять",
+        "ValueError без изменения состояния"
+      ]
+    },
+    {
+      "id": "D-2",
+      "question": "Правило пропуска у границы (F-1)",
+      "options": [
+        "точное сравнение без допуска",
+        "допуск 1e-9 как контракт, гарантия расширена",
+        "допуск с явно неопределённой полосой"
+      ]
+    }
+  ],
+  "provenance": {
+    "context_hash": "sha256:292c3e98a69e48b357ef1b1a898ec188568de5e33a9fcb2e9e27f9f416388ca5",
+    "model": "claude-opus-5-5",
+    "started_at": "2026-09-26T21:48:30Z",
+    "finished_at": "2026-09-26T22:12:00Z"
+  }
+}

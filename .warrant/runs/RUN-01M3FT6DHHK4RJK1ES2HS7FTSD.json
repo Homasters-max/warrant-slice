@@ -1,0 +1,211 @@
+{
+  "$schema": "warrant://run/1",
+  "id": "RUN-01M3FT6DHHK4RJK1ES2HS7FTSD",
+  "change": "rate-limiter",
+  "operation": "specify",
+  "write_scope": [
+    "openspec/changes/rate-limiter/**"
+  ],
+  "scope": [],
+  "branch": "spec/rate-limiter",
+  "started_at": "2026-09-26T21:33:30.603Z",
+  "finished_at": "2026-09-26T21:36:09.703Z",
+  "run_state": "SUCCEEDED",
+  "context_hash": "sha256:3755831bc15f7b4fbd822d597294dbf5498336acd8fa7abcfede5424c6b5e4c3",
+  "effective_policy_hash": "sha256:2859a4387fd309afceaecff57708278ca17d2eca30dbeada4f25882fab1cf4c8",
+  "guard_events": [
+    {
+      "at": "2026-09-26T21:33:40.756Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:33:48.678Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:33:56.530Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:34:26.426Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/proposal.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:34:27.365Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/proposal.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": [
+        "process"
+      ]
+    },
+    {
+      "at": "2026-09-26T21:34:35.867Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/specs/rate-limiter/spec.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:34:36.800Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/specs/rate-limiter/spec.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:34:40.192Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:34:54.553Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:35:04.401Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/specs/rate-limiter/spec.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:35:05.267Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/specs/rate-limiter/spec.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:35:08.574Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:35:31.814Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/design.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:35:32.753Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/design.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:35:34.867Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/tasks.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:35:35.892Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/tasks.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:35:39.205Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:35:52.027Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:36:06.036Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    }
+  ]
+}

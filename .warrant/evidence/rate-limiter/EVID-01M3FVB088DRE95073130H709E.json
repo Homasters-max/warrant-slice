@@ -1,0 +1,38 @@
+{
+  "$schema": "warrant://evidence/1",
+  "id": "EVID-01M3FVB088DRE95073130H709E",
+  "claim": {
+    "text": "openspec-validate passed for rate-limiter",
+    "targets": []
+  },
+  "kind": "spec-report",
+  "level": "L1",
+  "evidence_status": "PROVEN",
+  "subject": {
+    "commit": "d6fc7f596ee6ae6eb6e52f793661bf2644d2b93b",
+    "base_commit": "3430f5ac2987ddbe84c0ef3662a95d064f42470f",
+    "spec_revision": "openspec/changes/rate-limiter@d6fc7f596ee6ae6eb6e52f793661bf2644d2b93b",
+    "dataset_snapshot": null
+  },
+  "produced_by": {
+    "type": "check",
+    "id": "openspec-validate",
+    "version": "1.0.0"
+  },
+  "attestation": {
+    "type": "none"
+  },
+  "context_hash": "sha256:874a4679db3d76f78adc814618366e4b3c8e57f4ab0f433ae47235b07f502d6b",
+  "effective_policy_hash": "sha256:8028e12369f4d213ebfebf99da0cdf5b62c7fd286b991f6be2cc9a852bd30ffb",
+  "created_at": "2026-09-26T21:53:29.353Z",
+  "artifacts": [
+    {
+      "uri": ".warrant/evidence/rate-limiter/raw/openspec-validate/stdout.json",
+      "sha256": "sha256:eeb35b5265dac8edaa5166de56bb73fa5624f7875edf60711f21894342861f73"
+    }
+  ],
+  "limitations": [],
+  "metrics": {
+    "issues": 0
+  }
+}

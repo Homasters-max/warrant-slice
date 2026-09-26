@@ -1,0 +1,171 @@
+{
+  "$schema": "warrant://run/1",
+  "id": "RUN-01M3FVF0PX86KYPQH9DGHWAD3M",
+  "change": "rate-limiter",
+  "operation": "specify",
+  "write_scope": [
+    "openspec/changes/rate-limiter/**"
+  ],
+  "scope": [],
+  "branch": "spec/rate-limiter",
+  "started_at": "2026-09-26T21:55:40.950Z",
+  "finished_at": "2026-09-26T21:57:15.555Z",
+  "run_state": "SUCCEEDED",
+  "context_hash": "sha256:ab98e3cd2b80507e5ed9a197b5a2adfd8cc1e944ddbfc31a5174a8cc34dbe2e9",
+  "effective_policy_hash": "sha256:8028e12369f4d213ebfebf99da0cdf5b62c7fd286b991f6be2cc9a852bd30ffb",
+  "guard_events": [
+    {
+      "at": "2026-09-26T21:56:02.373Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/specs/rate-limiter/spec.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:56:03.322Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/specs/rate-limiter/spec.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": [
+        "process"
+      ]
+    },
+    {
+      "at": "2026-09-26T21:56:08.352Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:56:19.635Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/specs/rate-limiter/spec.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:56:20.586Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/specs/rate-limiter/spec.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:56:27.187Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/proposal.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:56:28.167Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/proposal.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:56:42.237Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "deny",
+      "reason": "`python -` runs check tests-passed directly (prefix `python`, execution.exclusive: true): it runs only through warrant check",
+      "findings": [],
+      "rules_shown": [],
+      "argv": [
+        "cd",
+        "openspec/changes/rate-limiter",
+        "&&",
+        "python",
+        "-",
+        "\n",
+        "grep",
+        "-n",
+        "Risks",
+        "-A6",
+        "design.md"
+      ]
+    },
+    {
+      "at": "2026-09-26T21:57:01.648Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/design.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:57:02.646Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/design.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:57:05.261Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/tasks.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:57:06.205Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/tasks.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T21:57:10.675Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    }
+  ]
+}
