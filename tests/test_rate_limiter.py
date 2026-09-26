@@ -1,6 +1,7 @@
 """Тесты spec `rate-limiter`: каждый тест несёт токен своего сценария SCN-RL-…"""
 
 import math
+import sys
 
 import pytest
 
@@ -119,3 +120,34 @@ def test_scn_rl_006_request_failures():
     assert [limiter.allow("a") for _ in range(3)] == [True, True, False]  # запас 1 + 1, отметка 0 не сдвинута
     assert [limiter.allow(k) for k in (1, 1.0, True)] == [True, True, False]  # один ключ
     assert clock.calls == 10  # все запросы, кроме запроса с ключом [1]
+
+
+# Прочтение «представимо конечным double» по design.md D-2/D-3: `float(x)` конечен без OverflowError, иначе ValueError;
+# int в диапазоне float, не представимый точно, принимается с округлением.
+_BEYOND_FLOAT = 2**1024  # float(2**1024) -> OverflowError
+
+
+@pytest.mark.parametrize("window", [2**53 + 1, sys.float_info.max, int(sys.float_info.max)])
+def test_scn_rl_004_window_in_float_range_accepted(window):
+    """SCN-RL-004: W — int в диапазоне float (в том числе неточно представимый 2^53 + 1) принимается."""
+    assert RateLimiter(2, window, clock=FakeClock(0)).allow("a") is True
+
+
+@pytest.mark.parametrize("window", [_BEYOND_FLOAT, -_BEYOND_FLOAT])
+def test_scn_rl_004_window_float_overflow_rejected(window):
+    """SCN-RL-004: W, для которого float(W) даёт OverflowError, — ValueError, а не OverflowError."""
+    with pytest.raises(ValueError):
+        RateLimiter(2, window, clock=FakeClock(0))
+
+
+def test_scn_rl_006_clock_value_float_reading():
+    """SCN-RL-006: значение источника 2^53 + 1 принимается с округлением; 2**1024 — ValueError без изменения состояния."""
+    clock = FakeClock(2**53 + 1)
+    limiter = RateLimiter(1, 10, clock=clock)
+
+    assert limiter.allow("a") is True
+    clock.value = _BEYOND_FLOAT
+    with pytest.raises(ValueError):
+        limiter.allow("a")
+    clock.value = 2**53 + 11  # float(...) == 2**53 + 12: не меньше 10 с от отметки float(2**53 + 1) == 2**53
+    assert [limiter.allow("a") for _ in range(2)] == [True, False]

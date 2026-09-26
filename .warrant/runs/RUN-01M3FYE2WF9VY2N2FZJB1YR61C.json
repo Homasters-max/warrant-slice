@@ -1,0 +1,74 @@
+{
+  "$schema": "warrant://run/1",
+  "id": "RUN-01M3FYE2WF9VY2N2FZJB1YR61C",
+  "change": "rate-limiter",
+  "operation": "implement",
+  "task": "F-1 reading tests",
+  "write_scope": [
+    "src/**",
+    "tests/**",
+    "openspec/changes/rate-limiter/tasks.md"
+  ],
+  "scope": [
+    "tests/**"
+  ],
+  "branch": "impl/rate-limiter",
+  "started_at": "2026-09-26T22:47:36.139Z",
+  "finished_at": "2026-09-26T22:48:18.411Z",
+  "run_state": "SUCCEEDED",
+  "context_hash": "sha256:5807a93697e81deee4544095e2cb215bd945f23bf81b79a4604e6139d43e1169",
+  "effective_policy_hash": "sha256:8028e12369f4d213ebfebf99da0cdf5b62c7fd286b991f6be2cc9a852bd30ffb",
+  "guard_events": [
+    {
+      "at": "2026-09-26T22:47:45.474Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T22:47:56.581Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "tests/test_rate_limiter.py"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T22:47:57.784Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "tests/test_rate_limiter.py"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": [
+        "process"
+      ]
+    },
+    {
+      "at": "2026-09-26T22:47:58.763Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T22:48:11.607Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    }
+  ]
+}
