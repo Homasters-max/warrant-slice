@@ -1,7 +1,7 @@
 {
   "$schema": "warrant://change-record/1",
   "change": "rate-limiter",
-  "change_state": "VERIFYING",
+  "change_state": "MERGED",
   "classification": {
     "profiles": [
       "chore",
@@ -87,6 +87,24 @@
       "effective_policy_hash": "sha256:8028e12369f4d213ebfebf99da0cdf5b62c7fd286b991f6be2cc9a852bd30ffb",
       "gates": {},
       "evidence": []
+    },
+    {
+      "to": "MERGED",
+      "at": "2026-09-26T22:54:06.787Z",
+      "by": "cli:local",
+      "effective_policy_hash": "sha256:8028e12369f4d213ebfebf99da0cdf5b62c7fd286b991f6be2cc9a852bd30ffb",
+      "gates": {
+        "analyze-clean": "PASS",
+        "evidence-complete": "PASS",
+        "ids-valid": "PASS",
+        "scope-valid": "PASS",
+        "spec-approved": "PASS",
+        "tests-passed": "PASS"
+      },
+      "evidence": [
+        "EVID-01M3FYH23DVHEYT3BVT4C9CWV1"
+      ],
+      "ref": "https://github.com/Homasters-max/warrant-slice/pull/2"
     }
   ]
 }
