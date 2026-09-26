@@ -1,0 +1,14 @@
+{
+  "$schema": "warrant://evidence-manifest/1",
+  "change": "rate-limiter",
+  "commit": "44b65a491b025450359eaa33795f5ef9acd73c77",
+  "versions": {
+    "warrant": "0.7.0",
+    "openspec": "1.13.1",
+    "lock_hash": "sha256:1c3baea727ddec30c46cb74e512b673f75450e7c599334bd9308a6d6a0fb7120",
+    "effective_policy_hash": "sha256:8028e12369f4d213ebfebf99da0cdf5b62c7fd286b991f6be2cc9a852bd30ffb"
+  },
+  "evidence": [
+    "EVID-01M3FTX9V771H10T4PPM8GNVB4"
+  ]
+}

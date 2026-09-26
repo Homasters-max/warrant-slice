@@ -1,0 +1,177 @@
+{
+  "$schema": "warrant://skill-result/1",
+  "skill": "specification/adversarial-review@0.2.0",
+  "run": "RUN-01M3FTNH8NBQJ4YYMWP428SZR9",
+  "run_state": "SUCCEEDED",
+  "findings": [
+    {
+      "id": "F-1",
+      "marker": "FACT",
+      "severity": "BLOCKER",
+      "category": "contradiction",
+      "statement": "Заголовок REQ-RL-001 «Не больше N запросов за окно», Purpose и proposal обещают не больше N за окно W, но тело REQ-RL-001 (новый ключ с полным запасом N) и REQ-RL-002 (пополнение N/W) допускают до 2N за интервал длины W: N=2, W=10, запросы в t=0,0,5,10 — все пропущены, три из них в [0,5]. Design D-1 отвергает fixed window за то же свойство.",
+      "targets": [
+        "REQ-RL-001",
+        "REQ-RL-002",
+        "openspec/changes/rate-limiter/proposal.md"
+      ],
+      "recommendation": "Либо переформулировать контракт как всплеск до N и скорость N/W с явной границей (за интервал T не больше N+floor(N*T/W)) и сценарием, либо сменить алгоритм под гарантию N в любом окне W."
+    },
+    {
+      "id": "F-2",
+      "marker": "FACT",
+      "severity": "BLOCKER",
+      "category": "missing-boundary",
+      "statement": "REQ-RL-001 прямо оставляет неопределённым поведение при значении источника меньше предыдущего (UNK-RL-001); вход достижим через внедряемый источник, варианты design D-4 дают разное наблюдаемое поведение, тест по spec невозможен. UNK-RL-001 есть только прозой, в Change record его нет (правило design в openspec/config.yaml).",
+      "targets": [
+        "REQ-RL-001",
+        "REQ-RL-002"
+      ],
+      "recommendation": "Получить решение мейнтейнера до APPROVED, записать поведение в spec со сценарием; зарегистрировать UNKNOWN в Change record."
+    },
+    {
+      "id": "F-3",
+      "marker": "FACT",
+      "severity": "MAJOR",
+      "category": "contradiction",
+      "statement": "REQ-RL-001: время только из источника, переданного вызывающим, без обращения к системным часам; design D-2/D-3 ставит по умолчанию time.monotonic. Spec не говорит, обязателен ли источник; отклонение не записано строкой I-N.",
+      "targets": [
+        "REQ-RL-001",
+        "openspec/changes/rate-limiter/design.md"
+      ],
+      "recommendation": "Решить в spec: источник обязателен (сценарий на отказ) или допустимы монотонные часы по умолчанию; согласовать design."
+    },
+    {
+      "id": "F-4",
+      "marker": "INFERENCE",
+      "severity": "MAJOR",
+      "category": "missing-error-behavior",
+      "statement": "Недопустимая квота или окно SHALL отклоняться ошибкой, но вид ошибки не назван и ни один сценарий это SHALL не покрывает.",
+      "targets": [
+        "REQ-RL-001"
+      ],
+      "recommendation": "Назвать вид ошибки и добавить сценарий с N=0, N<0, W<=0."
+    },
+    {
+      "id": "F-5",
+      "marker": "INFERENCE",
+      "severity": "MAJOR",
+      "category": "missing-boundary",
+      "statement": "Не очерчены границы N и W: N=3.0 и логическое true (design исключает bool, spec молчит), W=NaN и бесконечность, нечисловые значения.",
+      "targets": [
+        "REQ-RL-001"
+      ],
+      "recommendation": "Явно перечислить допустимые и отклоняемые значения N и W в REQ-RL-001."
+    },
+    {
+      "id": "F-6",
+      "marker": "INFERENCE",
+      "severity": "MAJOR",
+      "category": "hidden-assumption",
+      "statement": "Не определено, что такое ключ и когда два ключа совпадают; при dict (design D-3) ключи 1, 1.0 и true попадают в одну корзину. Поведение при недопустимом (нехешируемом) ключе не описано.",
+      "targets": [
+        "REQ-RL-001",
+        "SCN-RL-003"
+      ],
+      "recommendation": "Определить домен и равенство ключей и ошибку для недопустимого ключа."
+    },
+    {
+      "id": "F-7",
+      "marker": "INFERENCE",
+      "severity": "MAJOR",
+      "category": "missing-error-behavior",
+      "statement": "Не описан отказ источника времени (исключение, не число, NaN): пробрасывается ли, принимается ли решение, меняется ли запас ключа.",
+      "targets": [
+        "REQ-RL-001",
+        "REQ-RL-002"
+      ],
+      "recommendation": "Указать: отказ передаётся вызывающему, состояние ключа не меняется; добавить сценарий."
+    },
+    {
+      "id": "F-8",
+      "marker": "INFERENCE",
+      "severity": "MAJOR",
+      "category": "hidden-assumption",
+      "statement": "REQ-RL-002 предполагает точную арифметику дробного времени; во float N=10, W=1, время 0.2 затем 0.3 даёт запас 0.9999999999999998 и отклонение, хотя прошло 0.1 с.",
+      "targets": [
+        "REQ-RL-002"
+      ],
+      "recommendation": "Указать точность: точная арифметика, допуск или оговорка о границе при дробном времени."
+    },
+    {
+      "id": "F-9",
+      "marker": "FACT",
+      "severity": "MINOR",
+      "category": "ambiguity",
+      "statement": "SCN-RL-002 не фиксирует время первых трёх запросов (в отличие от SCN-RL-001/003); если 3-й пришёл через 1 с, запрос через следующие 4 с пропускается вопреки THEN.",
+      "targets": [
+        "SCN-RL-002"
+      ],
+      "recommendation": "Добавить в WHEN: время источника не меняется."
+    },
+    {
+      "id": "F-10",
+      "marker": "INFERENCE",
+      "severity": "INFO",
+      "category": "hidden-assumption",
+      "statement": "Однопоточность — non-goal proposal, но spec не называет её предусловием контракта.",
+      "targets": [
+        "REQ-RL-001"
+      ],
+      "recommendation": "Указать, что гарантии даны для последовательных вызовов."
+    }
+  ],
+  "unknowns": [
+    {
+      "id": "U-1",
+      "question": "UNK-RL-001: поведение при значении источника времени меньше предыдущего.",
+      "blocking": true,
+      "impact": [
+        "spec",
+        "design",
+        "tasks"
+      ]
+    },
+    {
+      "id": "U-2",
+      "question": "Нужна гарантия не больше N в любом окне W или всплеск N со скоростью N/W?",
+      "blocking": true,
+      "impact": [
+        "spec",
+        "proposal",
+        "design"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "A-1",
+      "statement": "Main specs нет (openspec/specs только .gitkeep), противоречий с main spec нет."
+    }
+  ],
+  "decisions_required": [
+    {
+      "id": "D-1",
+      "question": "Часы назад (UNK-RL-001)",
+      "options": [
+        "elapsed=0, сдвинуть отметку",
+        "elapsed=0, отметку не менять",
+        "ошибка из вызова"
+      ]
+    },
+    {
+      "id": "D-2",
+      "question": "Контракт квоты (F-1)",
+      "options": [
+        "token bucket: всплеск N, скорость N/W",
+        "строго N в любом окне W"
+      ]
+    }
+  ],
+  "provenance": {
+    "context_hash": "sha256:84dbc5feb199a47f089bae93c8fa9afc8edabb9a4dccd7a96b100c6dc262ca28",
+    "model": "claude-opus-5-5",
+    "started_at": "2026-09-26T21:41:46Z",
+    "finished_at": "2026-09-26T21:58:00Z"
+  }
+}
