@@ -1,0 +1,114 @@
+{
+  "$schema": "warrant://run/1",
+  "id": "RUN-01M3FY2XPHQRKZ3KCT45VJ9CS1",
+  "change": "rate-limiter",
+  "operation": "implement",
+  "write_scope": [
+    "src/**",
+    "tests/**",
+    "openspec/changes/rate-limiter/tasks.md"
+  ],
+  "scope": [],
+  "branch": "impl/rate-limiter",
+  "started_at": "2026-09-26T22:41:30.375Z",
+  "finished_at": "2026-09-26T22:44:07.533Z",
+  "run_state": "SUCCEEDED",
+  "context_hash": "sha256:a79b658ac0b0802b877e956631bcc55e470fdd4abad3501b9a693a86d0ca0373",
+  "effective_policy_hash": "sha256:8028e12369f4d213ebfebf99da0cdf5b62c7fd286b991f6be2cc9a852bd30ffb",
+  "guard_events": [
+    {
+      "at": "2026-09-26T22:41:56.742Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "src/rate_limiter/__init__.py"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T22:41:57.633Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "src/rate_limiter/__init__.py"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": [
+        "process"
+      ]
+    },
+    {
+      "at": "2026-09-26T22:42:15.638Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "tests/test_rate_limiter.py"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T22:42:16.575Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "tests/test_rate_limiter.py"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T22:42:20.896Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T22:42:33.125Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T22:43:41.601Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T22:43:55.637Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter/design.md"
+      ],
+      "decision": "deny",
+      "reason": "openspec/changes/rate-limiter/design.md outside the Run RUN-01M3FY2XPHQRKZ3KCT45VJ9CS1 of rate-limiter: write_scope: src/**, tests/**, openspec/changes/rate-limiter/tasks.md",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-26T22:44:03.730Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    }
+  ]
+}
