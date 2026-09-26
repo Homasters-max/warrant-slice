@@ -1,0 +1,20 @@
+{
+  "$schema": "warrant://check/1",
+  "id": "tests-passed",
+  "version": "1.0.0",
+  "overrides": "core-sdd:tests-passed",
+  "description": "Project test suite: pytest with a junit report.",
+  "level": "L1",
+  "run": {
+    "command": [
+      "python",
+      "-m",
+      "pytest",
+      "--junitxml={out}/junit.xml"
+    ]
+  },
+  "execution": {
+    "exclusive": true,
+    "timeout_s": 600
+  }
+}
