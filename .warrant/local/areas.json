@@ -1,3 +1,6 @@
 {
-  "$schema": "warrant://areas/1"
+  "$schema": "warrant://areas/1",
+  "RL": {
+    "capability": "rate-limiter"
+  }
 }
