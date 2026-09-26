@@ -1,0 +1,165 @@
+{
+  "$schema": "warrant://skill-result/1",
+  "skill": "specification/adversarial-review@0.2.0",
+  "run": "RUN-01M3FVYX2AN1AYX48W047KT7BA",
+  "run_state": "SUCCEEDED",
+  "findings": [
+    {
+      "id": "F-1",
+      "marker": "INFERENCE",
+      "severity": "MAJOR",
+      "category": "ambiguity",
+      "statement": "REQ-RL-001 requires W and source values to be 'representable as a finite double' (представимым конечным числом с плавающей точкой двойной точности). Two readings: float(x) is finite without overflow (design D-2/D-3), or x is exactly representable (usual numeric meaning; the N bound 2^53 was chosen for exactness). For int W or source time 2**53+1: accepted and rounded vs ValueError. SCN-RL-004 and SCN-RL-006 test only 10^400, which both readings reject.",
+      "targets": [
+        "REQ-RL-001",
+        "SCN-RL-004",
+        "SCN-RL-006"
+      ],
+      "recommendation": "State the rule explicitly, e.g. int or float whose conversion to double is finite (int rounded to the nearest double), or require exact representability; add 2**53+1 to SCN-RL-004 (W) and SCN-RL-006 (source value) with the chosen outcome."
+    },
+    {
+      "id": "F-2",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "ambiguity",
+      "statement": "Purpose of the delta spec and proposal What Changes say 'per key no more than N requests in a row' (не больше N запросов подряд) without the qualifier 'without passage of time' that REQ-RL-001 has. Read as consecutive passes it is false for token bucket even with a monotonic source: N=2, W=10, requests at 0, 0, 10, 10 give 4 passes in a row.",
+      "targets": [
+        "openspec/changes/rate-limiter/specs/rate-limiter/spec.md",
+        "openspec/changes/rate-limiter/proposal.md",
+        "REQ-RL-001"
+      ],
+      "recommendation": "Reword Purpose and What Changes as REQ-RL-001: burst of at most N without passage of time, refill at N/W, for a non-decreasing source."
+    },
+    {
+      "id": "F-3",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "ambiguity",
+      "statement": "REQ-RL-001: 'first check the key, then call the source exactly once' does not say whether the key check includes the equality comparison with stored keys or only hashing. Design D-2 hashes, calls clock(), then looks up the dict, so __eq__ runs after the source call. For a key whose __eq__ raises on hash collision with a stored key, the source is called once (design) or not at all (other reading); SCN-RL-006 call count does not cover this.",
+      "targets": [
+        "REQ-RL-001",
+        "SCN-RL-006"
+      ],
+      "recommendation": "Define the key check as hashing only and state that equality comparison may happen after the source call (the source is still called exactly once), or require lookup before the call."
+    },
+    {
+      "id": "F-4",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "missing-boundary",
+      "statement": "Order of constructor validation is unspecified: RateLimiter(0, 10, clock=5) may raise ValueError or TypeError. SCN-RL-004 lists invalid N, W and clock without stating the values of the other arguments in each case.",
+      "targets": [
+        "REQ-RL-001",
+        "SCN-RL-004"
+      ],
+      "recommendation": "Fix the check order (e.g. limit, window, clock) or state that each SCN-RL-004 case uses valid other arguments (N=1, W=10, clock=None) and precedence is unspecified."
+    },
+    {
+      "id": "F-5",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "missing-boundary",
+      "statement": "SHALL 'with clock=None the limiter takes time from the process monotonic clock' has no scenario: SCN-RL-004 has no valid case and does not list clock=None or omitted clock; no SCN token lets a test check the default clock.",
+      "targets": [
+        "REQ-RL-001",
+        "SCN-RL-004",
+        "openspec/changes/rate-limiter/tasks.md"
+      ],
+      "recommendation": "Add a scenario: RateLimiter(1, 10) and RateLimiter(1, 10, clock=None) are created; each allow reads the monotonic clock (substituted in the test) exactly once; decisions follow its values."
+    },
+    {
+      "id": "F-6",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "ambiguity",
+      "statement": "REQ-RL-001: 'a key with no requests yet starts with full N' literally excludes a key whose only earlier requests ended with an exception; such requests leave no state (no mark, no tokens per REQ-RL-002), so its starting state is not defined by the text.",
+      "targets": [
+        "REQ-RL-001",
+        "REQ-RL-002"
+      ],
+      "recommendation": "Say 'a key with no successfully processed requests starts with full N'; optionally add to SCN-RL-006 a new key whose first request fails and whose next request passes."
+    },
+    {
+      "id": "F-7",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "hidden-assumption",
+      "statement": "The single-thread contract silently assumes no reentrancy: the source or key __hash__/__eq__ may call allow() on the same limiter in the same thread during a request. 'Exactly one source call', order, and 'failed request does not change state' are undefined for nested calls.",
+      "targets": [
+        "REQ-RL-001"
+      ],
+      "recommendation": "Declare reentrant calls from the source or key methods outside the contract, as multithreading is."
+    },
+    {
+      "id": "F-8",
+      "marker": "INFERENCE",
+      "severity": "INFO",
+      "category": "missing-boundary",
+      "statement": "The float disclaimer of REQ-RL-002 covers rounding at the boundary, not overflow or absorption at extreme magnitudes allowed by REQ-RL-001: with design D-1 elapsed*N/W, elapsed=1e300, N=2^53, W=1e308 gives elapsed*N=inf and a full bucket while the true refill is about 9e7 < N, exceeding the non-decreasing guarantee; for N near 2^53 increments below 0.5 are absorbed, so refill is slower than N/W.",
+      "targets": [
+        "REQ-RL-001",
+        "REQ-RL-002",
+        "openspec/changes/rate-limiter/design.md"
+      ],
+      "recommendation": "Either extend the disclaimer to extreme magnitudes or keep the spec and make design D-1 avoid overflow (e.g. full bucket only when elapsed >= W, else elapsed*N/W)."
+    }
+  ],
+  "proposals": [
+    {
+      "id": "P-1",
+      "target": "openspec/changes/rate-limiter/specs/rate-limiter/spec.md",
+      "change": "REQ-RL-001: explicit meaning of 'representable' for W and source values; 2**53+1 cases in SCN-RL-004 and SCN-RL-006 (F-1)."
+    },
+    {
+      "id": "P-2",
+      "target": "openspec/changes/rate-limiter/specs/rate-limiter/spec.md",
+      "change": "Purpose aligned with REQ-RL-001 guarantee (F-2); key check = hashing, comparison after the source call (F-3); constructor check order or SCN-RL-004 companion values (F-4); default-clock scenario (F-5); new key = no successfully processed requests (F-6); reentrancy outside contract (F-7)."
+    },
+    {
+      "id": "P-3",
+      "target": "openspec/changes/rate-limiter/proposal.md",
+      "change": "What Changes: 'no more than N in a row' qualified as a burst without passage of time (F-2)."
+    }
+  ],
+  "unknowns": [
+    {
+      "id": "U-1",
+      "question": "Are int W and int source values within float range but not exactly representable (e.g. 2**53+1) accepted with rounding, or rejected with ValueError?",
+      "blocking": false,
+      "impact": [
+        "spec",
+        "design"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "A-1",
+      "statement": "No main specs (openspec/specs contains only .gitkeep); consistency checked within the Change only."
+    },
+    {
+      "id": "A-2",
+      "statement": "Python float semantics (multiplication overflow yields inf without exception, float(int) overflow raises OverflowError, 0.75+0.25 == 1.0) inferred without running code."
+    },
+    {
+      "id": "A-3",
+      "statement": "Findings of earlier reviews treated as closed by the current text unless raised again here; F-5 partly repeats F-6/F-7 of the third review (default clock still without scenario)."
+    }
+  ],
+  "decisions_required": [
+    {
+      "id": "D-1",
+      "question": "Meaning of 'representable as a finite double' for W and source values (F-1)",
+      "options": [
+        "float(x) finite without overflow, int rounded to nearest double (current design D-2/D-3)",
+        "exactly representable, otherwise ValueError"
+      ]
+    }
+  ],
+  "provenance": {
+    "context_hash": "sha256:9ba2c9baca06482d376951800646943fd5c9678aa78e56d769b2b91db8a26002",
+    "model": "claude-opus-5-5",
+    "started_at": "2026-09-27T11:00:00Z",
+    "finished_at": "2026-09-27T11:30:00Z"
+  }
+}
