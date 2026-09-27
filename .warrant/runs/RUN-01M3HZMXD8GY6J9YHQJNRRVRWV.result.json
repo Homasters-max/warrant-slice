@@ -1,0 +1,113 @@
+{
+  "$schema": "warrant://skill-result/1",
+  "skill": "specification/adversarial-review@0.2.0",
+  "run": "RUN-01M3HZMXD8GY6J9YHQJNRRVRWV",
+  "run_state": "SUCCEEDED",
+  "findings": [
+    {
+      "id": "F-1",
+      "marker": "FACT",
+      "severity": "MAJOR",
+      "category": "contradiction",
+      "statement": "Waiver bullet: maintainer activates 'сам или словом в PR, по которому агент выполняет warrant waive --activate <WAV> --by <maintainer>'. Factory norm: REQ-KRN-031 'Агент MAY выполнять (1); активация — акт человека (05 §7)', 05 §7 'Агент MAY предложить waiver ... но не активировать его', waiver schema 'An agent may propose but not approve'. Unlike DECISION ref, the PR word is not checked by warrant ci.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/proposal.md"
+      ],
+      "recommendation": "Either maintainer runs --activate himself and commits to the impl-PR branch, or record a maintainer decision (I-N/ADR) that agent activation on a cited PR comment is the human act; see D-1."
+    },
+    {
+      "id": "F-2",
+      "marker": "INFERENCE",
+      "severity": "MAJOR",
+      "category": "missing-boundary",
+      "statement": "UNKNOWN bullet: on open blocking UNKNOWN 'агент останавливается и ждёт', but the decision must be a comment in the spec-PR, and the current process opens the PR only after verify. Not said that the agent pushes/opens the spec-PR and asks the question there before stopping; a literal reading deadlocks (no PR to comment on) - the exact path rate-limiter-precision exercises.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/proposal.md",
+        "openspec/changes/pin-v0-8-0/tasks.md"
+      ],
+      "recommendation": "State: add UNKNOWN, push and open spec-PR, ask with the UNK id in the PR, then WAIT; add to the 2.1 check."
+    },
+    {
+      "id": "F-3",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "missing-boundary",
+      "statement": "Waiver --expires is left '…'. spec-approved sits on VERIFYING->MERGED and is re-evaluated by transition MERGED in the archive-PR; a waiver EXPIRED by then gives FAIL.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/proposal.md"
+      ],
+      "recommendation": "Say --expires must cover the archive-PR (MERGED) date."
+    },
+    {
+      "id": "F-4",
+      "marker": "FACT",
+      "severity": "MINOR",
+      "category": "contradiction",
+      "statement": "D-1 justifies CLI 0.7 for the first commit by 'CLI 0.8 на нём даёт LOCK_MISMATCH до warrant sync', and later says 'lock проверяет только validate' (true in code: checkLock only via validate/guard). transition is not refused by the lock.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/design.md"
+      ],
+      "recommendation": "Restate the reason (records of APPROVED/IMPLEMENTING under the base law) or drop the LOCK_MISMATCH claim for transition."
+    },
+    {
+      "id": "F-5",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "ambiguity",
+      "statement": "Task 1.3 (local warrant ci) sits before 2.1 and 3.1, while VERIFYING is the last commit (D-1). Run before VERIFYING, judgeImpl adds CHANGE_NOT_VERIFYING, which is not in the expected set -> false stop. Expected L1 gates also surface as GATE_NOT_PASSED errors, not only ATTESTATION_REQUIRED.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/tasks.md",
+        "openspec/changes/pin-v0-8-0/design.md"
+      ],
+      "recommendation": "Fix when 1.3 runs (after VERIFYING commit) or list CHANGE_NOT_VERIFYING and GATE_NOT_PASSED-with-ATTESTATION_REQUIRED as expected."
+    },
+    {
+      "id": "F-6",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "hidden-assumption",
+      "statement": "Fallback 'v0.8.1 и повтор impl-PR этого же Change' changes proposal.md (tag v0.8.0 is in the contract) after approval: spec-approved FAIL SPEC_CHANGED_AFTER_APPROVAL; not said.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/design.md"
+      ],
+      "recommendation": "Name the path: I-N + waiver spec-approved (ADR-0024 p.4) or a new pin-Change."
+    },
+    {
+      "id": "F-7",
+      "marker": "INFERENCE",
+      "severity": "INFO",
+      "category": "missing-boundary",
+      "statement": "Review 1: F-1..F-7 and F-9 closed (ref conditions, state limit, waiver path, rehearsal+fallback, unknown in writer list, --by in D-3 and step 3, two CLIs, rollback as pin-Change, BL-74 cited). F-8 mostly closed: 2.1 check does not cover '#discussion_r excluded', author in roles.maintainer, PROPOSED/SPECIFIED limit.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/tasks.md"
+      ],
+      "recommendation": "Optional: extend the 2.1 check."
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "A-1",
+      "statement": "openspec validate --strict and spec-valid accept a skip_specs Change (factory precedent: core-seams, test-levels); not run here."
+    },
+    {
+      "id": "A-2",
+      "statement": "sync 0.8 on pack 0.3.4 (only kernel range changed) leaves openspec/schemas/** and config.yaml unchanged."
+    }
+  ],
+  "decisions_required": [
+    {
+      "id": "D-1",
+      "question": "Who activates the spec-approved waiver in the slice process text (F-1)?",
+      "options": [
+        "Maintainer only: runs warrant waive --activate himself and commits to the impl-PR branch",
+        "Agent on a maintainer PR comment, URL cited in reason/I-N; amend 05 §7 / REQ-KRN-031 by ADR"
+      ]
+    }
+  ],
+  "provenance": {
+    "context_hash": "sha256:6bb27f0e20e37fe0492eda987436b4b4051e16111a33eac9fc40219ab01f244d",
+    "model": "claude-opus-5-5",
+    "started_at": "2026-09-27T19:00:00Z",
+    "finished_at": "2026-09-27T19:40:00Z"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "warrant://run/1",
+  "id": "RUN-01M3HZKM98CWGWVJP1P5NMVN52",
+  "change": "pin-v0-8-0",
+  "operation": "specify",
+  "write_scope": [
+    "openspec/changes/pin-v0-8-0/**"
+  ],
+  "scope": [],
+  "branch": "spec/pin-v0-8-0",
+  "started_at": "2026-09-27T17:46:35.224Z",
+  "finished_at": "2026-09-27T17:47:06.935Z",
+  "run_state": "SUCCEEDED",
+  "context_hash": "sha256:3457560b62108b07e4bc2423c99427ff9cb5756ddd8d943f8db45b8205369c1f",
+  "effective_policy_hash": "sha256:0975648ef97c5f46279e163d015f5e4df38196ffc5d5ec45f2f0ca4141590829",
+  "guard_events": []
+}

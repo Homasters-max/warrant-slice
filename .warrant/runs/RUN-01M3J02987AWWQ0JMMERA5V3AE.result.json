@@ -1,0 +1,78 @@
+{
+  "$schema": "warrant://skill-result/1",
+  "skill": "specification/adversarial-review@0.2.0",
+  "run": "RUN-01M3J02987AWWQ0JMMERA5V3AE",
+  "run_state": "SUCCEEDED",
+  "findings": [
+    {
+      "id": "F-1",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "missing-boundary",
+      "statement": "D-1/task 3.2: any outcome outside the expected set (RECORD_MISMATCH, USAGE, other codes, exit 3) is read as 'отказ CLI 0.8 на базе kernel 0.7' and triggers the v0.8.1 fallback. Local preconditions are named only as merge commit + GITHUB_REPOSITORY; gh auth/GH_TOKEN is not (judgeRefs of APPROVED and the DECISION check call the forge: FORGE_UNAVAILABLE exit 3), and a RECORD_MISMATCH/USAGE caused by the Change itself or the local setup is not told apart from a factory refusal.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/design.md",
+        "openspec/changes/pin-v0-8-0/tasks.md"
+      ],
+      "recommendation": "Name gh auth/GH_TOKEN as a precondition of 3.2; say that FORGE_UNAVAILABLE/USAGE of the local setup is repeated after fixing the setup, and only a code tied to the base lock/pack (kernel 0.7, pack 0.3.3) leads to the v0.8.1 path."
+    },
+    {
+      "id": "F-2",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "missing-boundary",
+      "statement": "Process text: 'исправить до APPROVED — --replace'. After the spec-PR is merged (base record SPECIFIED) the impl-PR may not change resolved_as or empty resolution/ref of base unknowns[] (REQ-VER-011, ADR-0040 p.3: RECORD_MISMATCH). --replace with another --as (e.g. fact -> assumption) in the impl-PR before the APPROVED commit is allowed by CLI (state SPECIFIED) but reddens the job.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/proposal.md"
+      ],
+      "recommendation": "State: --replace freely in the spec-PR; after merge of the spec-PR only without changing --as, the decision ref still in the spec-PR."
+    },
+    {
+      "id": "F-3",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "missing-boundary",
+      "statement": "Waiver path: spec edit after approval is limited to design.md I-N and delta spec, 'proposal.md вне write_scope'. The process text does not say what the agent does when the maintainer's decision requires a change of proposal.md (part of the spec-approved contract, ADR-0024 p.1): under guard the path is unreachable and the agent is left without a step.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/proposal.md"
+      ],
+      "recommendation": "Add: a needed proposal.md change — stop and ask the maintainer (edit by the maintainer in the impl-PR under the same waiver, or a new Change)."
+    },
+    {
+      "id": "F-4",
+      "marker": "FACT",
+      "severity": "MINOR",
+      "category": "ambiguity",
+      "statement": "Waiver command text '--expires <не раньше archive-PR, например +90 дней>' while REQ-KRN-031 requires --expires <YYYY-MM-DD> (not earlier than today UTC, else USAGE); a relative '+90 дней' is not an accepted value.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/proposal.md"
+      ],
+      "recommendation": "Write '--expires <YYYY-MM-DD не раньше archive-PR, например сегодня + 90 дней>'."
+    },
+    {
+      "id": "F-5",
+      "marker": "INFERENCE",
+      "severity": "INFO",
+      "category": "missing-boundary",
+      "statement": "Review 2 findings closed: F-1 (maintainer activates the waiver himself and commits to the impl-PR branch), F-2 (spec-PR, draft if needed, opened on blocking UNKNOWN), F-3 (expires covers archive-PR), F-4 (D-1 reason restated: gates by pack 0.3.4 before lock), F-5 (task 3.2 after VERIFYING, GATE_NOT_PASSED with ATTESTATION_REQUIRED expected), F-6 (fallback via I-N + spec-approved waiver). Consistent with REQ-VER-013, core-sdd risk-high, BL-74, ADR-0041.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/proposal.md",
+        "openspec/changes/pin-v0-8-0/design.md",
+        "openspec/changes/pin-v0-8-0/tasks.md"
+      ],
+      "recommendation": "None."
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "A-1",
+      "statement": "CLI 0.8 ci uses its bundled pack 0.3.4 as law for the impl-PR (base lock hash absent -> factory-change required, REQ-VER-011); code of core/ci not read beyond decisions.ts header."
+    }
+  ],
+  "provenance": {
+    "context_hash": "sha256:740a0025dbe42b2db959abec7371e3c84d4bdc4bffd892e1b52c09c47cf74e22",
+    "model": "claude-opus-5-5",
+    "started_at": "2026-09-27T20:10:00Z",
+    "finished_at": "2026-09-27T20:35:00Z"
+  }
+}
