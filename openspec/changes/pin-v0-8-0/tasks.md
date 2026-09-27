@@ -9,7 +9,7 @@
 
 ## 2. Процесс агента
 
-- [ ] 2.1 `.warrant/local/rules/process.json`: blocking UNKNOWN и решение maintainer'а (`warrant unknown add | resolve`),
+- [x] 2.1 `.warrant/local/rules/process.json`: blocking UNKNOWN и решение maintainer'а (`warrant unknown add | resolve`),
   вопрос реализации — `I-N`, путь waiver `spec-approved`, `MERGED` без `--by`, кроме требования `warrant`; `warrant sync`
   перегенерирует `AGENTS.md` и `CLAUDE.md`; проверка — `warrant sync --check` зелёный; `AGENTS.md` содержит
   `warrant unknown add`, `--as decision`, `#issuecomment-`, `#pullrequestreview-`, `#discussion_r` (как запрет),
