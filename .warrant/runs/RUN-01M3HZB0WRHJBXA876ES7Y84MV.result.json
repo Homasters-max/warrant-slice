@@ -1,0 +1,146 @@
+{
+  "$schema": "warrant://skill-result/1",
+  "skill": "specification/adversarial-review@0.2.0",
+  "run": "RUN-01M3HZB0WRHJBXA876ES7Y84MV",
+  "run_state": "SUCCEEDED",
+  "findings": [
+    {
+      "id": "F-1",
+      "marker": "INFERENCE",
+      "severity": "MAJOR",
+      "category": "missing-error-behavior",
+      "statement": "Process-text bullet for blocking UNKNOWN omits what warrant ci 0.8 checks on the DECISION ref (ADR-0040 p.3): URL form #issuecomment-/#pullrequestreview- (not #discussion_r), author in roles.maintainer, comment text contains the UNK id, comment in the spec-PR; also that unknown add/resolve works only in PROPOSED/SPECIFIED and the agent must not resolve without that comment. An agent following the text can cite a line comment and get a red impl-PR.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/proposal.md"
+      ],
+      "recommendation": "List these ref conditions and the PROPOSED/SPECIFIED limit in the UNKNOWN bullet; add them to the 2.1 check."
+    },
+    {
+      "id": "F-2",
+      "marker": "INFERENCE",
+      "severity": "MAJOR",
+      "category": "missing-boundary",
+      "statement": "Waiver-path bullet is incomplete vs ADR-0024 p.4 and ADR-0040 p.4/p.8: spec edit only after a maintainer decision (not agent initiative), proposal.md is outside implement write_scope, waiver reason must cite the I-N line, agent creates PROPOSED waiver, maintainer activates with warrant waive --activate <WAV> --by and who commits the activated waiver and before which step (VERIFYING/merge) is not said.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/proposal.md"
+      ],
+      "recommendation": "Spell out trigger (maintainer decision), allowed files (design.md, specs/**), reason->I-N, activation command, actor and ordering."
+    },
+    {
+      "id": "F-3",
+      "marker": "INFERENCE",
+      "severity": "MAJOR",
+      "category": "hidden-assumption",
+      "statement": "D-1 assumes CLI 0.8 warrant ci accepts the impl-PR whose base lock is kernel 0.7/core-sdd 0.3.3 and whose APPROVED/IMPLEMENTING transitions were written by CLI 0.7 (effective policy of pack 0.3.3) while VERIFYING is written under 0.3.4 (ADR-0038 p.1: pack hash differs -> law change). Risks only say stop on refusal: no path to finish the Change, and nothing verifies the assumption before approval.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/design.md",
+        "openspec/changes/pin-v0-8-0/tasks.md"
+      ],
+      "recommendation": "Add a task to rehearse D-1 on a scratch branch (CLI 0.8 verify/ci against base with 0.7 lock) before impl-PR, and name the fallback if it fails."
+    },
+    {
+      "id": "F-4",
+      "marker": "FACT",
+      "severity": "MINOR",
+      "category": "missing-boundary",
+      "statement": "Current process.json enumerates record writers as (init change, classify, transition, run, waive, ci fetch, archive); proposal does not add unknown to this list, so the edited text contradicts its own new UNKNOWN bullet.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/proposal.md",
+        ".warrant/local/rules/process.json"
+      ],
+      "recommendation": "Add unknown to the list of edits of process.json."
+    },
+    {
+      "id": "F-5",
+      "marker": "FACT",
+      "severity": "MINOR",
+      "category": "ambiguity",
+      "statement": "D-3 says effective policy 'may' put human-approval on VERIFYING->MERGED for this Change; record risk is HIGH, so overlay risk-high puts it for certain. Migration Plan step 3 (MERGED) omits --by for this Change.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/design.md"
+      ],
+      "recommendation": "State the gate is present (risk-high) and write MERGED --by <maintainer> in step 3."
+    },
+    {
+      "id": "F-6",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "hidden-assumption",
+      "statement": "D-1 needs CLI 0.7 and 0.8 side by side, while Impact tells to install 0.8 globally; how 0.7 is invoked for the first commit is not said.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/design.md"
+      ],
+      "recommendation": "Name the invocation of each CLI in D-1 (e.g. node <SRA-v0.7.0>/dist/bin/warrant.js vs global 0.8)."
+    },
+    {
+      "id": "F-7",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "hidden-assumption",
+      "statement": "Rollback 'revert impl-PR' (and reversibility EASY) ignores that a PR touching .github/workflows/** or .warrant/** without a factory-change Change is rejected by warrant ci (ADR-0038 p.3); rollback is itself a pin-Change.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/design.md"
+      ],
+      "recommendation": "Describe rollback as a factory-change Change (or revert within the same Change before merge)."
+    },
+    {
+      "id": "F-8",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "ambiguity",
+      "statement": "With skip_specs the proposal is the contract, but acceptance of the process text (task 2.1) only checks that AGENTS.md names warrant unknown and warrant waive; removal of unconditional --by at MERGED and the ref conditions are unchecked.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/tasks.md"
+      ],
+      "recommendation": "Extend the 2.1 check: no unconditional --by at MERGED, UNKNOWN ref conditions, waiver activation actor."
+    },
+    {
+      "id": "F-9",
+      "marker": "FACT",
+      "severity": "INFO",
+      "category": "contradiction",
+      "statement": "ADR-0040 p.5 removes --by at MERGED from process text unconditionally; proposal keeps it conditional. Justified by BL-74 (risk HIGH overlay), cited only in design D-3.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/proposal.md"
+      ],
+      "recommendation": "Cite BL-74 in the proposal bullet."
+    },
+    {
+      "id": "F-10",
+      "marker": "INFERENCE",
+      "severity": "INFO",
+      "category": "implementation-leakage",
+      "statement": "skip_specs is justified: no library behavior changes, the claims are config values checked by validate/sync --check and CI; a process capability would need areas.json, unwritable in spec-PR.",
+      "targets": [
+        "openspec/changes/pin-v0-8-0/proposal.md"
+      ],
+      "recommendation": "None."
+    }
+  ],
+  "unknowns": [
+    {
+      "id": "U-1",
+      "question": "Does CLI 0.8 warrant ci/verify accept transitions APPROVED/IMPLEMENTING written by CLI 0.7 under pack 0.3.3 in the same impl-PR?",
+      "blocking": false,
+      "impact": [
+        "design"
+      ]
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "A-1",
+      "statement": "required-artifacts-present counts skip_specs as skipped for specs (D-2), not verified in code."
+    },
+    {
+      "id": "A-2",
+      "statement": "No gate requires a Run implement record for the policy-path edits made outside guard (ADR-0041)."
+    }
+  ],
+  "provenance": {
+    "context_hash": "sha256:ccfe2423e8b137b5ab10f5a0da3641d904fff00ca1628639b34fd71f8644672a",
+    "model": "claude-opus-5-5",
+    "started_at": "2026-09-27T18:00:00Z",
+    "finished_at": "2026-09-27T18:30:00Z"
+  }
+}
