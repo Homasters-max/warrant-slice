@@ -1,0 +1,41 @@
+{
+  "$schema": "warrant://run/1",
+  "id": "RUN-01M3J3AWGT3SPV3RX3ZSP70DMD",
+  "change": "rate-limiter-precision",
+  "operation": "review",
+  "skill": "specification/adversarial-review@0.2.0",
+  "model": "claude-opus-5-5",
+  "write_scope": [],
+  "scope": [],
+  "branch": "spec/rate-limiter-precision",
+  "started_at": "2026-09-27T18:51:43.045Z",
+  "finished_at": "2026-09-27T18:53:29.923Z",
+  "run_state": "SUCCEEDED",
+  "context_hash": "sha256:4d50004c4e29306695de612fd5dab5b579f999bfc2dbcb7ef37b5a652358d3fb",
+  "effective_policy_hash": "sha256:e9787d18af3b7042f48f23f29706b189702355f238326586ce589644544dcd72",
+  "spec_tree": "sha256:4536305c88acfa17dece98f884d8e11cd444db0fb157879229402cff910feae7",
+  "evidence": [
+    "EVID-01M3J3E433RHNHEQQ8AA1DZQ9A"
+  ],
+  "guard_events": [
+    {
+      "at": "2026-09-27T18:51:46.053Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "deny",
+      "reason": "`cat C:/Users/Xiaomi/AppData/Local/Temp/claude/D--project-warrant-slice/a2893033-08b4-4f9c-b8ba-64bfa7e9836f/scratchpad/review-pack.json` under the review Run RUN-01M3J3AWGT3SPV3RX3ZSP70DMD of rate-limiter-precision: a review Run runs only `warrant run submit`",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-27T18:53:26.704Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    }
+  ]
+}

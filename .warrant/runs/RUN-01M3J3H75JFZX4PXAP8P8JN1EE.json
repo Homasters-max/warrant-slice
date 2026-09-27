@@ -1,0 +1,31 @@
+{
+  "$schema": "warrant://run/1",
+  "id": "RUN-01M3J3H75JFZX4PXAP8P8JN1EE",
+  "change": "rate-limiter-precision",
+  "operation": "review",
+  "skill": "specification/adversarial-review@0.2.0",
+  "model": "claude-opus-5-5",
+  "write_scope": [],
+  "scope": [],
+  "branch": "spec/rate-limiter-precision",
+  "started_at": "2026-09-27T18:55:10.556Z",
+  "finished_at": "2026-09-27T18:56:21.573Z",
+  "run_state": "SUCCEEDED",
+  "context_hash": "sha256:c62d4d1038460bdb4b95530d0c7067bfb0fba50103f3049ff304baab80296ccc",
+  "effective_policy_hash": "sha256:e9787d18af3b7042f48f23f29706b189702355f238326586ce589644544dcd72",
+  "spec_tree": "sha256:75319b6dde151b6a9b096d83f9e880c18e22bdfc0846d815179d6660ffde4551",
+  "evidence": [
+    "EVID-01M3J3KBX4EVJ9JBB0WETJQSEN"
+  ],
+  "guard_events": [
+    {
+      "at": "2026-09-27T18:56:18.881Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    }
+  ]
+}

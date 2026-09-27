@@ -1,0 +1,78 @@
+{
+  "$schema": "warrant://skill-result/1",
+  "skill": "specification/adversarial-review@0.2.0",
+  "run": "RUN-01M3J3AWGT3SPV3RX3ZSP70DMD",
+  "run_state": "SUCCEEDED",
+  "findings": [
+    {
+      "id": "F-1",
+      "marker": "FACT",
+      "severity": "MAJOR",
+      "category": "contradiction",
+      "statement": "Modified REQ-RL-001 rejects 2^53+1 for W and source values, but existing tests carrying SCN-RL-004 and SCN-RL-006 tokens assert the old reading: tests/test_rate_limiter.py test_scn_rl_004_window_in_float_range_accepted (W=2**53+1 accepted) and test_scn_rl_006_clock_value_float_reading (source 2**53+1 and 2**53+11 accepted with rounding). tasks.md 1.2 says SCN-RL-004/SCN-RL-006 tests 'still pass' and no task rewrites them, so after task 1.1 they fail; SCN-RL-004/006 test evidence would contradict the spec.",
+      "targets": [
+        "REQ-RL-001",
+        "SCN-RL-004",
+        "SCN-RL-006",
+        "openspec/changes/rate-limiter-precision/tasks.md"
+      ],
+      "recommendation": "Add a task: remove 2**53+1 from the SCN-RL-004 accepted-W test and rewrite the SCN-RL-006 source-value test (2**53+1, 2**53+11 now ValueError) or move these cases under SCN-RL-007; fix the check of task 1.2 accordingly."
+    },
+    {
+      "id": "F-2",
+      "marker": "INFERENCE",
+      "severity": "MINOR",
+      "category": "hidden-assumption",
+      "statement": "'Value of type int or float (not bool)' does not say whether subclasses count. design.md Risks declares an int subclass with overridden __eq__ 'out of contract, as before', but no spec text says so; with D-1 a float subclass overriding __eq__ (reflected first) or an int subclass overriding __float__ can make an exactly representable value fail seconds == value, contradicting 'float - any finite value'. The new equality check makes the result depend on these methods.",
+      "targets": [
+        "REQ-RL-001",
+        "openspec/changes/rate-limiter-precision/design.md"
+      ],
+      "recommendation": "State in REQ-RL-001 that subclasses of int/float with overridden numeric or comparison methods are outside the contract, or define the rule on the numeric value (e.g. int(value)/float(value) of the base type)."
+    },
+    {
+      "id": "F-3",
+      "marker": "INFERENCE",
+      "severity": "INFO",
+      "category": "hidden-assumption",
+      "statement": "Main spec cites UNK-RL-001 (Change rate-limiter decision), and this Change's record also holds UNK-RL-001 with a different text (number reservation). After archive the id resolves to two records; the spec reference assumes UNK ids are unique across Changes. proposal.md documents this.",
+      "targets": [
+        "REQ-RL-001",
+        "openspec/changes/rate-limiter-precision/proposal.md"
+      ],
+      "recommendation": "Optionally qualify the reference (e.g. rate-limiter/UNK-RL-001) or leave as is; the reservation is explained."
+    }
+  ],
+  "proposals": [
+    {
+      "id": "P-1",
+      "target": "openspec/changes/rate-limiter-precision/tasks.md",
+      "change": "Task to update SCN-RL-004/SCN-RL-006 tests that assert 2**53+1 acceptance; task 1.2 check aligned (F-1)."
+    },
+    {
+      "id": "P-2",
+      "target": "openspec/changes/rate-limiter-precision/specs/rate-limiter/spec.md",
+      "change": "REQ-RL-001: int/float subclasses with overridden __eq__/__float__ outside the contract (F-2)."
+    }
+  ],
+  "assumptions": [
+    {
+      "id": "A-1",
+      "statement": "Python semantics inferred without running code: float == int compares exactly; float(int subclass) calls overridden __float__; a float subclass overriding __eq__ gets the reflected call first."
+    },
+    {
+      "id": "A-2",
+      "statement": "Findings F-2..F-8 of review RUN-01M3FVYX2AN1AYX48W047KT7BA are non-goals and not repeated; the unchanged parts of REQ-RL-001 match main spec verbatim."
+    },
+    {
+      "id": "A-3",
+      "statement": "tests/test_rate_limiter.py read at current HEAD outside items[] as context for tasks.md."
+    }
+  ],
+  "provenance": {
+    "context_hash": "sha256:4d50004c4e29306695de612fd5dab5b579f999bfc2dbcb7ef37b5a652358d3fb",
+    "model": "claude-opus-5-5",
+    "started_at": "2026-09-27T19:00:00Z",
+    "finished_at": "2026-09-27T19:20:00Z"
+  }
+}
