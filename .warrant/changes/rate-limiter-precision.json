@@ -20,7 +20,10 @@
     {
       "id": "UNK-RL-002",
       "text": "REQ-RL-001: что значит «представимо конечным числом с плавающей точкой двойной точности» для окна W и значения источника времени типа int, которое double не представляет точно (|x| > 2^53, например 2^53 + 1)? (A) принимается, если float(x) конечен без OverflowError, int округляется до ближайшего double (так сейчас design D-2/D-3 Change rate-limiter и код); (B) принимается, только если double представляет x точно (float(x) == x), иначе ValueError. Одно ли правило для W и для значения источника? Повод — находка F-1 review 4 Change rate-limiter (RUN-01M3FVYX2AN1AYX48W047KT7BA).",
-      "blocking": true
+      "blocking": true,
+      "resolution": "Вариант B: окно W и значение часов (int или float, не bool) принимаются, только если число точно представимо конечным double; иначе ValueError. 2**53 + 1 — ValueError, 2**53 — принимается. Правило для W и для часов одно.",
+      "resolved_as": "decision",
+      "ref": "https://github.com/Homasters-max/warrant-slice/pull/7#issuecomment-5858719334"
     }
   ]
 }
