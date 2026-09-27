@@ -1,7 +1,7 @@
 {
   "$schema": "warrant://change-record/1",
   "change": "rate-limiter-precision",
-  "change_state": "SPECIFIED",
+  "change_state": "IMPLEMENTING",
   "classification": {
     "profiles": [
       "chore",
@@ -49,6 +49,36 @@
       "evidence": [
         "EVID-01M3J3QCJWM3RJA9B8M4KQJXCJ"
       ]
+    },
+    {
+      "to": "APPROVED",
+      "at": "2026-09-27T19:10:06.059Z",
+      "by": "cli:local",
+      "effective_policy_hash": "sha256:e9787d18af3b7042f48f23f29706b189702355f238326586ce589644544dcd72",
+      "gates": {
+        "adversarial-review": "PASS",
+        "blocking-unknowns-resolved": "PASS",
+        "human-approval": "PASS",
+        "ids-valid": "PASS",
+        "required-artifacts-present": "PASS",
+        "spec-valid": "PASS"
+      },
+      "evidence": [
+        "EVID-01M3J3KBX4EVJ9JBB0WETJQSEN",
+        "EVID-01M3J4BRJGJ5M4B15NQWY74JY4",
+        "EVID-01M3J4CC79819YT9M5APR6ANQZ"
+      ],
+      "ref": "https://github.com/Homasters-max/warrant-slice/pull/7"
+    },
+    {
+      "to": "IMPLEMENTING",
+      "at": "2026-09-27T19:10:09.153Z",
+      "by": "cli:local",
+      "effective_policy_hash": "sha256:e9787d18af3b7042f48f23f29706b189702355f238326586ce589644544dcd72",
+      "gates": {
+        "branch-isolated": "PASS"
+      },
+      "evidence": []
     }
   ],
   "unknowns": [
