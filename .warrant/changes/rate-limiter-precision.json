@@ -1,7 +1,7 @@
 {
   "$schema": "warrant://change-record/1",
   "change": "rate-limiter-precision",
-  "change_state": "IMPLEMENTING",
+  "change_state": "VERIFYING",
   "classification": {
     "profiles": [
       "chore",
@@ -78,6 +78,14 @@
       "gates": {
         "branch-isolated": "PASS"
       },
+      "evidence": []
+    },
+    {
+      "to": "VERIFYING",
+      "at": "2026-09-27T19:11:31.727Z",
+      "by": "cli:local",
+      "effective_policy_hash": "sha256:e9787d18af3b7042f48f23f29706b189702355f238326586ce589644544dcd72",
+      "gates": {},
       "evidence": []
     }
   ],
