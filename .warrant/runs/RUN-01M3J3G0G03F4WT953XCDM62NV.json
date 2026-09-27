@@ -1,0 +1,161 @@
+{
+  "$schema": "warrant://run/1",
+  "id": "RUN-01M3J3G0G03F4WT953XCDM62NV",
+  "change": "rate-limiter-precision",
+  "operation": "specify",
+  "write_scope": [
+    "openspec/changes/rate-limiter-precision/**"
+  ],
+  "scope": [],
+  "branch": "spec/rate-limiter-precision",
+  "started_at": "2026-09-27T18:54:30.960Z",
+  "finished_at": "2026-09-27T18:55:03.454Z",
+  "run_state": "SUCCEEDED",
+  "context_hash": "sha256:a57f3a981c8d1ace0e5ce97742723a9e4099db7add60e6bb13788633aff439b4",
+  "effective_policy_hash": "sha256:e9787d18af3b7042f48f23f29706b189702355f238326586ce589644544dcd72",
+  "guard_events": [
+    {
+      "at": "2026-09-27T18:54:35.277Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter-precision/specs/rate-limiter/spec.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-27T18:54:35.979Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter-precision/specs/rate-limiter/spec.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": [
+        "process"
+      ]
+    },
+    {
+      "at": "2026-09-27T18:54:39.733Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter-precision/tasks.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-27T18:54:40.384Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter-precision/tasks.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-27T18:54:45.165Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter-precision/tasks.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-27T18:54:45.777Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter-precision/tasks.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-27T18:54:52.256Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter-precision/design.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-27T18:54:52.885Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter-precision/design.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-27T18:54:53.542Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter-precision/design.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-27T18:54:54.192Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter-precision/design.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-27T18:54:58.663Z",
+      "phase": "pre",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter-precision/design.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-27T18:54:59.264Z",
+      "phase": "post",
+      "action": "edit",
+      "paths": [
+        "openspec/changes/rate-limiter-precision/design.md"
+      ],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    },
+    {
+      "at": "2026-09-27T18:55:00.513Z",
+      "phase": "pre",
+      "action": "shell",
+      "paths": [],
+      "decision": "allow",
+      "findings": [],
+      "rules_shown": []
+    }
+  ]
+}
