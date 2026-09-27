@@ -1,0 +1,43 @@
+{
+  "$schema": "warrant://evidence/1",
+  "id": "EVID-01M3J0RGV5PMVR8XKX3J8FRM2S",
+  "claim": {
+    "text": "tests-passed passed for pin-v0-8-0",
+    "targets": []
+  },
+  "kind": "test-report",
+  "level": "L1",
+  "evidence_status": "PROVEN",
+  "subject": {
+    "commit": "bb1f890187eb7ad2868132f2a29586d217d929d8",
+    "base_commit": "dd6e604b10a9bc0b587b88013166afb49726201c",
+    "spec_revision": "openspec/changes/pin-v0-8-0@bb1f890187eb7ad2868132f2a29586d217d929d8",
+    "tree": "30d3999af9528b9ae893012d5501ba56a4f396e1",
+    "dataset_snapshot": null
+  },
+  "produced_by": {
+    "type": "check",
+    "id": "tests-passed",
+    "version": "1.0.0"
+  },
+  "attestation": {
+    "type": "ci",
+    "ref": "https://github.com/Homasters-max/warrant-slice/actions/runs/36339399333/attempts/1"
+  },
+  "context_hash": "sha256:f81a699cb13ad8ee619ea83babc510bfa59a9ecce6c195e92593c07d3f4cfdc6",
+  "effective_policy_hash": "sha256:0975648ef97c5f46279e163d015f5e4df38196ffc5d5ec45f2f0ca4141590829",
+  "created_at": "2026-09-27T18:06:44.070Z",
+  "artifacts": [
+    {
+      "uri": ".warrant/evidence/pin-v0-8-0/raw/tests-passed/junit.xml",
+      "sha256": "sha256:bf4c961d8c1c2b3754bf5403b2503aa2d515335aa2aeddcda28ec461f365cc39"
+    }
+  ],
+  "limitations": [],
+  "metrics": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 25
+  }
+}
