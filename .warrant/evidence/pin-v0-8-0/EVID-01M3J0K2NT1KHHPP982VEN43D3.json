@@ -1,0 +1,32 @@
+{
+  "$schema": "warrant://evidence/1",
+  "id": "EVID-01M3J0K2NT1KHHPP982VEN43D3",
+  "claim": {
+    "text": "Homasters-max approved pin-v0-8-0 for SPECIFIED->APPROVED",
+    "targets": []
+  },
+  "kind": "human-approval",
+  "level": "L0",
+  "evidence_status": "PROVEN",
+  "subject": {
+    "commit": "dd6e604b10a9bc0b587b88013166afb49726201c",
+    "base_commit": "dd6e604b10a9bc0b587b88013166afb49726201c",
+    "spec_revision": "openspec/changes/pin-v0-8-0@dd6e604b10a9bc0b587b88013166afb49726201c",
+    "dataset_snapshot": null
+  },
+  "produced_by": {
+    "type": "human",
+    "id": "Homasters-max"
+  },
+  "attestation": {
+    "type": "human-review",
+    "ref": "https://github.com/Homasters-max/warrant-slice/pull/4"
+  },
+  "context_hash": "sha256:aeacb89d11afbce18435f26336316d683362268c8946ec25fa7c3bd5989c5fa1",
+  "effective_policy_hash": "sha256:0975648ef97c5f46279e163d015f5e4df38196ffc5d5ec45f2f0ca4141590829",
+  "created_at": "2026-09-27T18:03:45.722Z",
+  "artifacts": [],
+  "limitations": [
+    "ref not verified (phase 4: warrant ci)"
+  ]
+}
