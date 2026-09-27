@@ -20,5 +20,5 @@
 
 - [x] 3.1 `warrant check pin-v0-8-0 tests-passed` и `warrant verify pin-v0-8-0` CLI 0.8.0; проверка — оба завершаются
   успешно
-- [ ] 3.2 После коммита `VERIFYING`, до push — `warrant ci` CLI 0.8.0 на локальном merge-коммите (design D-1); проверка —
+- [x] 3.2 После коммита `VERIFYING`, до push — `warrant ci` CLI 0.8.0 на локальном merge-коммите (design D-1); проверка —
   код 1 только с `GATE_NOT_PASSED` gates L1 (`ATTESTATION_REQUIRED`) и `human-approval` в `deferred[]`; иначе остановка
