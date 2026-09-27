@@ -1,7 +1,7 @@
 {
   "$schema": "warrant://change-record/1",
   "change": "pin-v0-8-0",
-  "change_state": "MERGED",
+  "change_state": "ARCHIVED",
   "classification": {
     "profiles": [
       "chore",
@@ -108,6 +108,21 @@
         "EVID-01M3J0VRCDB3E1MQMP8Q6F6EMR"
       ],
       "ref": "https://github.com/Homasters-max/warrant-slice/pull/5"
+    },
+    {
+      "to": "ARCHIVED",
+      "at": "2026-09-27T18:08:38.522Z",
+      "by": "cli:local",
+      "effective_policy_hash": "sha256:0975648ef97c5f46279e163d015f5e4df38196ffc5d5ec45f2f0ca4141590829",
+      "gates": {
+        "analyze-clean": "PASS",
+        "ids-valid": "PASS",
+        "required-artifacts-present": "PASS",
+        "spec-valid": "PASS"
+      },
+      "evidence": [
+        "EVID-01M3J0VXH38Y4S3AX6S0D7QWPY"
+      ]
     }
   ]
 }
