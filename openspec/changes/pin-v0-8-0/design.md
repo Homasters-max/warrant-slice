@@ -19,7 +19,8 @@
 
 ### D-1. Порядок в impl-PR
 
-Первый коммит — переходы `APPROVED` и `IMPLEMENTING` CLI 0.7.0: lock базы — kernel 0.7, CLI 0.8 на нём даёт
+Первый коммит — переходы `APPROVED` и `IMPLEMENTING` CLI 0.7.0 — закон базы (kernel 0.7, pack `0.3.3` в lock): CLI 0.8
+`transition` lock не проверяет, но вычислил бы gates по pack `0.3.4` до его записи в lock, а `validate` на нём даёт
 `LOCK_MISMATCH` до `warrant sync`. Затем правка `warrant.json` и `warrant.yml`, `warrant sync` CLI 0.8.0 (lock, схемы,
 сгенерированные файлы) и текст `process.json` с повторным `sync`. Последний коммит — `verify` и `VERIFYING` CLI 0.8.0.
 Отвергнуто: `sync` до `APPROVED` — spec-PR не может трогать policy-пути.
@@ -27,12 +28,14 @@
 Два CLI: глобальный `warrant` — 0.8.0; 0.7.0 — сборка тега в отдельном каталоге (`git worktree add --detach <dir> v0.7.0`
 в репозитории фабрики, `npm ci`, `npm run build`, вызов `node <dir>/packages/cli/dist/bin/warrant.js`).
 
-Проверка до push impl-PR: `warrant ci` 0.8.0 локально на merge-коммите, собранном как в job (`origin/main` + head ветки,
-`git merge --no-ff`, `GITHUB_REPOSITORY` задан). Ожидаемый исход — нарушений нет, кроме `BLOCKED` gates L1 с
-`ATTESTATION_REQUIRED` (evidence вне CI, код 1); `LOCK_MISMATCH`, `RECORD_MISMATCH`, `USAGE` или код 3 — отказ CLI 0.8 на
-базе kernel 0.7. По коду фабрики этого не ждём: lock проверяет только `validate`, а pack `0.3.4`, которого нет в lock
+Проверка до push impl-PR — после коммита `VERIFYING` (иначе `CHANGE_NOT_VERIFYING`): `warrant ci` 0.8.0 локально на
+merge-коммите, собранном как в job (`origin/main` + head ветки, `git merge --no-ff`, `GITHUB_REPOSITORY` задан). Ожидаемый
+исход — код 1 только с `GATE_NOT_PASSED` gates L1, у которых в findings `ATTESTATION_REQUIRED` (evidence вне CI), и
+`human-approval` в `deferred[]`; `LOCK_MISMATCH`, `RECORD_MISMATCH`, `USAGE`, иные коды нарушений или код 3 — отказ CLI 0.8
+на базе kernel 0.7. По коду фабрики этого не ждём: lock проверяет только `validate`, а pack `0.3.4`, которого нет в lock
 базы, `warrant ci` принимает при `factory-change` в классификации (REQ-VER-011). Отказ — остановка: запасной путь —
-исправление фабрики (`v0.8.1`) и повтор impl-PR этого же Change на новом теге.
+исправление фабрики (`v0.8.1`) и повтор impl-PR этого же Change на новом теге; тег назван в proposal, поэтому его смена —
+строка `I-N` и waiver `spec-approved` (ADR-0024 п. 4), который активирует maintainer.
 
 ### D-2. Без spec
 

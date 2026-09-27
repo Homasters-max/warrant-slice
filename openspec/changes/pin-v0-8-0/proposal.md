@@ -17,8 +17,8 @@
 - Текст процесса агента `.warrant/local/rules/process.json` (и сгенерированные из него `AGENTS.md`, `CLAUDE.md`):
   - список команд, которые пишут record, += `unknown`;
   - UNKNOWN — только в `PROPOSED` и `SPECIFIED`: `warrant unknown add <change> --area <AREA> --text <вопрос> [--blocking]`;
-    открытый blocking UNKNOWN — `warrant status` `WAIT` (next `clarify`): агент останавливается и ждёт решения
-    maintainer'а;
+    открытый blocking UNKNOWN — `warrant status` `WAIT` (next `clarify`): агент коммитит ветку, открывает spec-PR
+    (`gh pr create --draft`, если артефакты не готовы), задаёт в нём вопрос с id UNKNOWN и ждёт решения maintainer'а;
   - решение — комментарий автора из `roles.maintainer` в spec-PR Change: issue comment `…/pull/<N>#issuecomment-<id>` или
     review `…/pull/<N>#pullrequestreview-<id>` (не комментарий к строке `#discussion_r…`), текст которого содержит id
     UNKNOWN; затем `warrant unknown resolve <change> <UNK> --as decision --text <ответ> --ref <URL комментария>`; автора,
@@ -27,9 +27,10 @@
   - вопрос реализации — строка `I-N` в `design.md` с решением maintainer'а, не `warrant unknown`;
   - правка spec после approval — только по решению maintainer'а: внутри Run `implement` строка `I-N` в `design.md` и
     правка delta spec (`proposal.md` вне `write_scope`); `warrant waive <change> spec-approved --reason "<I-N>: …"
-    --risk … --control … --owner human:<maintainer> --expires …` создаёт waiver в `PROPOSED`; активирует maintainer —
-    сам или словом в PR, по которому агент выполняет `warrant waive --activate <WAV> --by <maintainer>` и коммитит в
-    ветку impl-PR до merge (без `ACTIVE` waiver job `warrant` красный: `GATE_NOT_PASSED` `spec-approved`);
+    --risk … --control … --owner human:<maintainer> --expires <не раньше archive-PR, например +90 дней>` создаёт waiver
+    в `PROPOSED`; агент waiver не активирует (акт человека): maintainer сам выполняет `warrant waive --activate <WAV>
+    --by <login>` и коммитит в ветку impl-PR до merge, агент просит об этом в PR (без `ACTIVE` waiver job `warrant`
+    красный: `GATE_NOT_PASSED` `spec-approved`; истёкший к `MERGED` waiver — тоже);
   - `transition MERGED --ref <URL impl-PR>` — без `--by` (ADR-0040 п. 5), кроме Change, у которого effective policy
     ставит gate `human-approval` на `VERIFYING->MERGED` (risk `HIGH`): `warrant` отвечает `USAGE`, и `--by <maintainer>`
     передаётся (BL-74 фабрики).
