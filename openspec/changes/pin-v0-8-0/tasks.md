@@ -2,9 +2,9 @@
 
 ## 1. Судья CI и kernel
 
-- [ ] 1.1 `.github/workflows/warrant.yml`: тег `v0.8.0` в шаге установки CLI, `permissions` += `issues: read`; проверка —
+- [x] 1.1 `.github/workflows/warrant.yml`: тег `v0.8.0` в шаге установки CLI, `permissions` += `issues: read`; проверка —
   `git diff` называет только эти строки
-- [ ] 1.2 `.warrant/warrant.json`: `kernel: "0.8"`; `warrant sync` CLI 0.8.0 — lock, схемы, сгенерированные файлы;
+- [x] 1.2 `.warrant/warrant.json`: `kernel: "0.8"`; `warrant sync` CLI 0.8.0 — lock, схемы, сгенерированные файлы;
   проверка — `warrant validate` и `warrant sync --check` CLI 0.8.0 зелёные
 
 ## 2. Процесс агента
