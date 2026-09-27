@@ -58,6 +58,19 @@ BREAKING` — локальный CLI 0.7 на lock kernel 0.8 даёт `LOCK_MIS
 обратно на `v0.7.0` (PR, трогающий `.warrant/**` и `.github/workflows/**` без Change `factory-change`, отклоняется,
 ADR-0038 п. 3), данных не теряет. `--propose` в spec-PR: diff spec-PR ещё не содержит policy-путей.
 
+### D-5. Уточнения текста процесса (review 3, MINOR)
+
+Текст `process.json` в impl-PR (задача 2.1) дополнительно называет:
+- `--replace` меняет ответ до `APPROVED`; после merge spec-PR (record базы в `SPECIFIED`) смена `--as`, удаление
+  `resolution` или `ref` — `RECORD_MISMATCH` в `warrant ci` (ADR-0040 п. 3), вопрос — строкой `I-N`;
+- решение maintainer'а, требующее правки `proposal.md` (вне `write_scope` `implement`), агент не делает сам: просит
+  maintainer'а в PR — правку делает человек, waiver `spec-approved` тот же;
+- `--expires` — дата `YYYY-MM-DD` не раньше ожидаемого archive-PR («+90 дней» в proposal — пример срока, не значение).
+
+Проверка задачи 3.2 — при `gh auth status` зелёном (иначе `FORGE_UNAVAILABLE`, код 3, — не отказ фабрики); исход с
+`RECORD_MISMATCH` или `USAGE` сначала сверяется с `hint`: ошибка Change исправляется в ветке, остановка — только если
+причина в CLI 0.8 на базе kernel 0.7.
+
 ## Risks / Trade-offs
 
 - [CLI 0.8 судит impl-PR, база которого на lock kernel 0.7] → `warrant ci` выводит требования из базы (ADR-0038); если
