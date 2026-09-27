@@ -18,7 +18,8 @@ _MAX_LIMIT = 2**53
 
 
 def _finite_seconds(value: object, what: str) -> float:
-    """Значение `int`/`float` (не `bool`), для которого `float(value)` конечен без переполнения; иначе `ValueError`."""
+    """Значение секунд (REQ-RL-001, UNK-RL-002): `int`/`float` (не `bool`), которое конечный double представляет точно;
+    иначе `ValueError`."""
     if isinstance(value, bool) or not isinstance(value, (int, float)):
         raise ValueError(f"{what} must be an int or float, got {value!r}")
     try:
@@ -27,6 +28,9 @@ def _finite_seconds(value: object, what: str) -> float:
         raise ValueError(f"{what} is out of the float range: {value!r}") from None
     if not math.isfinite(seconds):
         raise ValueError(f"{what} must be finite, got {value!r}")
+    # Сравнение int с float в Python точное: ложно ровно для int, которое double не представляет (2**53 + 1).
+    if seconds != value:
+        raise ValueError(f"{what} is not exactly representable as a float: {value!r}")
     return seconds
 
 

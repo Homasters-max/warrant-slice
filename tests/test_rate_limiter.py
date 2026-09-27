@@ -122,14 +122,13 @@ def test_scn_rl_006_request_failures():
     assert clock.calls == 10  # все запросы, кроме запроса с ключом [1]
 
 
-# Прочтение «представимо конечным double» по design.md D-2/D-3: `float(x)` конечен без OverflowError, иначе ValueError;
-# int в диапазоне float, не представимый точно, принимается с округлением.
+# Значение секунд (REQ-RL-001, UNK-RL-002): int или float, которое конечный double представляет точно; иначе ValueError.
 _BEYOND_FLOAT = 2**1024  # float(2**1024) -> OverflowError
 
 
-@pytest.mark.parametrize("window", [2**53 + 1, sys.float_info.max, int(sys.float_info.max)])
+@pytest.mark.parametrize("window", [sys.float_info.max, int(sys.float_info.max)])
 def test_scn_rl_004_window_in_float_range_accepted(window):
-    """SCN-RL-004: W — int в диапазоне float (в том числе неточно представимый 2^53 + 1) принимается."""
+    """SCN-RL-004: W — крайнее конечное значение float и равное ему int принимаются."""
     assert RateLimiter(2, window, clock=FakeClock(0)).allow("a") is True
 
 
@@ -140,14 +139,46 @@ def test_scn_rl_004_window_float_overflow_rejected(window):
         RateLimiter(2, window, clock=FakeClock(0))
 
 
-def test_scn_rl_006_clock_value_float_reading():
-    """SCN-RL-006: значение источника 2^53 + 1 принимается с округлением; 2**1024 — ValueError без изменения состояния."""
+def test_scn_rl_006_scn_rl_007_clock_value_exact():
+    """SCN-RL-006, SCN-RL-007: значения источника 2^53 + 1 и 2**1024 — ValueError без изменения состояния;
+    точно представимые 2^53 и 2^53 + 12 принимаются."""
     clock = FakeClock(2**53 + 1)
     limiter = RateLimiter(1, 10, clock=clock)
 
-    assert limiter.allow("a") is True
-    clock.value = _BEYOND_FLOAT
     with pytest.raises(ValueError):
         limiter.allow("a")
-    clock.value = 2**53 + 11  # float(...) == 2**53 + 12: не меньше 10 с от отметки float(2**53 + 1) == 2**53
+    clock.value = 2**53
+    assert limiter.allow("a") is True  # новый ключ: отказ при 2^53 + 1 не создал состояния
+    for value in (_BEYOND_FLOAT, 2**53 + 1):
+        clock.value = value
+        with pytest.raises(ValueError):
+            limiter.allow("a")
+    clock.value = 2**53 + 12  # 12 с от отметки 2^53: отказы не сдвинули отметку
     assert [limiter.allow("a") for _ in range(2)] == [True, False]
+    assert clock.calls == 6
+
+
+@pytest.mark.parametrize("window", [2**53, 2**53 + 2])
+def test_scn_rl_007_window_exact_accepted(window):
+    """SCN-RL-007: W = 2^53 и 2^53 + 2 точно представимы и принимаются."""
+    assert RateLimiter(2, window, clock=FakeClock(0)).allow("a") is True
+
+
+def test_scn_rl_007_window_not_exact_rejected():
+    """SCN-RL-007: W = 2^53 + 1 double не представляет точно — ValueError, а не округление."""
+    with pytest.raises(ValueError):
+        RateLimiter(2, 2**53 + 1, clock=FakeClock(0))
+
+
+def test_scn_rl_007_clock_value_exact():
+    """SCN-RL-007: при 2^53 + 1 запрос — ValueError без изменения состояния; при 2^53 и 2^53 + 2 пропущены."""
+    clock = FakeClock(2**53 + 1)
+    limiter = RateLimiter(2, 10, clock=clock)
+
+    with pytest.raises(ValueError):
+        limiter.allow("a")
+    clock.value = 2**53
+    assert limiter.allow("a") is True  # новый ключ, запас N
+    clock.value = 2**53 + 2
+    assert limiter.allow("a") is True  # запас 1 + 2·2/10 = 1.4
+    assert clock.calls == 3

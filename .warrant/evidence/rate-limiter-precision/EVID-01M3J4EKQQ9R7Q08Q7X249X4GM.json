@@ -1,0 +1,41 @@
+{
+  "$schema": "warrant://evidence/1",
+  "id": "EVID-01M3J4EKQQ9R7Q08Q7X249X4GM",
+  "claim": {
+    "text": "tests-passed passed for rate-limiter-precision",
+    "targets": []
+  },
+  "kind": "test-report",
+  "level": "L1",
+  "evidence_status": "PROVEN",
+  "subject": {
+    "commit": "ecf92e5a7a9628e347db2cdae6e39984774600c5",
+    "base_commit": "1dac9e63e09f05512bacf96887629ceb8d5885c1",
+    "spec_revision": "openspec/changes/rate-limiter-precision@ecf92e5a7a9628e347db2cdae6e39984774600c5",
+    "dataset_snapshot": null
+  },
+  "produced_by": {
+    "type": "check",
+    "id": "tests-passed",
+    "version": "1.0.0"
+  },
+  "attestation": {
+    "type": "none"
+  },
+  "context_hash": "sha256:d647340705039ad4d0b557b16a97d47645d91588ce2edeb3d4e8608139748280",
+  "effective_policy_hash": "sha256:e9787d18af3b7042f48f23f29706b189702355f238326586ce589644544dcd72",
+  "created_at": "2026-09-27T19:11:13.657Z",
+  "artifacts": [
+    {
+      "uri": ".warrant/evidence/rate-limiter-precision/raw/tests-passed/junit.xml",
+      "sha256": "sha256:67338d75cab355ec64e7c1a7720c9af96d2453a6089994d5d1de33176db744ba"
+    }
+  ],
+  "limitations": [],
+  "metrics": {
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "tests": 28
+  }
+}

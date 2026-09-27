@@ -1,0 +1,32 @@
+{
+  "$schema": "warrant://evidence/1",
+  "id": "EVID-01M3J4BRJGJ5M4B15NQWY74JY4",
+  "claim": {
+    "text": "Homasters-max approved rate-limiter-precision for SPECIFIED->APPROVED",
+    "targets": []
+  },
+  "kind": "human-approval",
+  "level": "L0",
+  "evidence_status": "PROVEN",
+  "subject": {
+    "commit": "543383ebf1d68d3aaa06e925d6f969827b31bc12",
+    "base_commit": "1dac9e63e09f05512bacf96887629ceb8d5885c1",
+    "spec_revision": "openspec/changes/rate-limiter-precision@543383ebf1d68d3aaa06e925d6f969827b31bc12",
+    "dataset_snapshot": null
+  },
+  "produced_by": {
+    "type": "human",
+    "id": "Homasters-max"
+  },
+  "attestation": {
+    "type": "human-review",
+    "ref": "https://github.com/Homasters-max/warrant-slice/pull/7"
+  },
+  "context_hash": "sha256:cfd7f997a63715007c44192ba92ceb5b6303acd509cfde62273c86e52edaf612",
+  "effective_policy_hash": "sha256:e9787d18af3b7042f48f23f29706b189702355f238326586ce589644544dcd72",
+  "created_at": "2026-09-27T19:09:40.304Z",
+  "artifacts": [],
+  "limitations": [
+    "ref not verified (phase 4: warrant ci)"
+  ]
+}
